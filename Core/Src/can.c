@@ -21,10 +21,12 @@ void CanInit(void) {
 	NVIC_EnableIRQ(CAN_RX0_IRQn);
 
 
+	CAN->BTR = 0x00070004;				// CAN Bitrate: 2010000 (data for the logic analyser debug purposes)
+
 	CAN->MCR &= ~CAN_MCR_INRQ;			// Initialisation mode off
 	while (CAN->MSR & CAN_MCR_INRQ);
 
-	CAN->BTR = 0x001c0001;				// CAN Bitrate: 2010000 (data for the logic analyser debug purposes)
+
 
 	CAN->MCR &= ~CAN_MCR_SLEEP;
 

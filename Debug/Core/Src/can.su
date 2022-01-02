@@ -1,7 +1,7 @@
 core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
 can.c:11:6:CanInit	8	static
-can.c:37:6:Can_Tx_Msg	16	static
-can.c:71:6:Can_Rx_Msg	16	static
-can.c:104:6:Can_Set_Filter	24	static
-can.c:139:33:CAN_TX_IRQHandler	8	static
-can.c:151:33:CAN_RX0_IRQHandler	16	static
+can.c:38:6:Can_Tx_Msg	16	static
+can.c:72:6:Can_Rx_Msg	16	static
+can.c:105:6:Can_Set_Filter	24	static
+can.c:140:33:CAN_TX_IRQHandler	8	static
+can.c:152:33:CAN_RX0_IRQHandler	16	static

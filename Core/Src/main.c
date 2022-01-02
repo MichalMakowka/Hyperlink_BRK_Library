@@ -26,14 +26,14 @@ int main(void)
 {
 
 	CAN_MESSAGE brkon;
-		strcpy(brkon.data, "br_00000");
+		strcpy(brkon.data, "br_0000");
 		brkon.format = STANDARD_FORMAT;
 		brkon.id = 0x03;
 		brkon.len = sizeof(brkon.data);
 		brkon.type = DATA_FRAME;
 
 	CAN_MESSAGE brkoff;
-		strcpy(brkoff.data, "br_00001");
+		strcpy(brkoff.data, "br_0001");
 		brkoff.format = STANDARD_FORMAT;
 		brkoff.id = 0x04;
 		brkoff.len = sizeof(brkoff.data);
@@ -46,18 +46,18 @@ int main(void)
 	Can_Set_Filter(0x01, STANDARD_FORMAT);
 	Can_Set_Filter(0x02, STANDARD_FORMAT);
 
-//	Can_Tx_Msg(&brkon);
+	Can_Tx_Msg(&brkon);
 
   while (1)
   {
 
-	  if (CAN->RF0R & CAN_RF0R_FMP0) {			      // message pending ?
-	  	Can_Rx_Msg(&can_rx_message);                  // read the message
-	  }
-	  if (can_rx_message.id == 0x01) {
+
+	  if (!strcmp(can_rx_message.data, "mb_0000")) {
 		  GPIOC->ODR |= GPIO_ODR_6;
-	  } else if (can_rx_message.id == 0x02) {
+//		  Can_Tx_Msg(&brkon);
+	  } else if (!strcmp(can_rx_message.data, "mb_0001")) {
 		  GPIOC->ODR &= ~GPIO_ODR_6;
+//		  Can_Tx_Msg(&brkoff);
 	  }
 
   }

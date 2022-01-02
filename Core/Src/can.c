@@ -20,6 +20,7 @@ void CanInit(void) {
 	NVIC_EnableIRQ(CAN_TX_IRQn);
 	NVIC_EnableIRQ(CAN_RX0_IRQn);
 
+	CAN->IER |= CAN_IER_FMPIE0;			// FIFO message pending interrupt enable
 
 	CAN->BTR = 0x00070004;				// CAN Bitrate: 2010000 (data for the logic analyser debug purposes)
 
@@ -142,7 +143,7 @@ __attribute__((interrupt)) void CAN_TX_IRQHandler (void)  {
 	    CAN->IER &= ~CAN_IER_TMEIE;                 // disable  TME interrupt
 	}
 
-// Tx Interrupt Action
+	// Tx Interrupt Action (insert relevant code if needed)
 
 }
 
@@ -153,7 +154,6 @@ __attribute__((interrupt)) void CAN_RX0_IRQHandler (void) {
 	if (CAN->RF0R & CAN_RF0R_FMP0) {			      // message pending ?
 		Can_Rx_Msg(&can_rx_message);                  // read the message
 	}
-
 
 }
 

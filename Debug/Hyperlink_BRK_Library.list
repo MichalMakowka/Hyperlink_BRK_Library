@@ -5,45 +5,45 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   00000188  08000000  08000000  00010000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  1 .text         000005a0  08000188  08000188  00010188  2**2
+  1 .text         000006c8  08000188  08000188  00010188  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000018  08000728  08000728  00010728  2**2
+  2 .rodata       00000020  08000850  08000850  00010850  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08000740  08000740  00010748  2**0
+  3 .ARM.extab    00000000  08000870  08000870  00010878  2**0
                   CONTENTS
-  4 .ARM          00000000  08000740  08000740  00010748  2**0
+  4 .ARM          00000000  08000870  08000870  00010878  2**0
                   CONTENTS
-  5 .preinit_array 00000000  08000740  08000748  00010748  2**0
+  5 .preinit_array 00000000  08000870  08000878  00010878  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08000740  08000740  00010740  2**2
+  6 .init_array   00000004  08000870  08000870  00010870  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  08000744  08000744  00010744  2**2
+  7 .fini_array   00000004  08000874  08000874  00010874  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         00000000  20000000  20000000  00010748  2**0
+  8 .data         00000000  20000000  20000000  00010878  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000038  20000000  08000748  00020000  2**2
+  9 .bss          00000038  20000000  08000878  00020000  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  20000038  08000748  00020038  2**0
+ 10 ._user_heap_stack 00000600  20000038  08000878  00020038  2**0
                   ALLOC
- 11 .ARM.attributes 00000030  00000000  00000000  00010748  2**0
+ 11 .ARM.attributes 00000030  00000000  00000000  00010878  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00002b61  00000000  00000000  00010778  2**0
+ 12 .debug_info   00002923  00000000  00000000  000108a8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 000006f4  00000000  00000000  000132d9  2**0
+ 13 .debug_abbrev 000006d8  00000000  00000000  000131cb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 000000e0  00000000  00000000  000139d0  2**3
+ 14 .debug_aranges 000000e0  00000000  00000000  000138a8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 00000098  00000000  00000000  00013ab0  2**3
+ 15 .debug_ranges 00000098  00000000  00000000  00013988  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  00014147  00000000  00000000  00013b48  2**0
+ 16 .debug_macro  00014147  00000000  00000000  00013a20  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   00001925  00000000  00000000  00027c8f  2**0
+ 17 .debug_line   00001923  00000000  00000000  00027b67  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    00069d4c  00000000  00000000  000295b4  2**0
+ 18 .debug_str    00069d4c  00000000  00000000  0002948a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00093300  2**0
+ 19 .comment      0000007b  00000000  00000000  000931d6  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000204  00000000  00000000  0009337c  2**2
+ 20 .debug_frame  00000224  00000000  00000000  00093254  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -62,7 +62,7 @@ Disassembly of section .text:
  800019e:	bd10      	pop	{r4, pc}
  80001a0:	20000000 	.word	0x20000000
  80001a4:	00000000 	.word	0x00000000
- 80001a8:	08000710 	.word	0x08000710
+ 80001a8:	08000838 	.word	0x08000838
 
 080001ac <frame_dummy>:
  80001ac:	b508      	push	{r3, lr}
@@ -74,890 +74,1050 @@ Disassembly of section .text:
  80001ba:	bd08      	pop	{r3, pc}
  80001bc:	00000000 	.word	0x00000000
  80001c0:	20000004 	.word	0x20000004
- 80001c4:	08000710 	.word	0x08000710
+ 80001c4:	08000838 	.word	0x08000838
 
-080001c8 <__NVIC_EnableIRQ>:
+080001c8 <strcmp>:
+ 80001c8:	f810 2b01 	ldrb.w	r2, [r0], #1
+ 80001cc:	f811 3b01 	ldrb.w	r3, [r1], #1
+ 80001d0:	2a01      	cmp	r2, #1
+ 80001d2:	bf28      	it	cs
+ 80001d4:	429a      	cmpcs	r2, r3
+ 80001d6:	d0f7      	beq.n	80001c8 <strcmp>
+ 80001d8:	1ad0      	subs	r0, r2, r3
+ 80001da:	4770      	bx	lr
+
+080001dc <__NVIC_EnableIRQ>:
   \details Enables a device specific interrupt in the NVIC interrupt controller.
   \param [in]      IRQn  Device specific interrupt number.
   \note    IRQn must not be negative.
  */
 __STATIC_INLINE void __NVIC_EnableIRQ(IRQn_Type IRQn)
 {
- 80001c8:	b480      	push	{r7}
- 80001ca:	b083      	sub	sp, #12
- 80001cc:	af00      	add	r7, sp, #0
- 80001ce:	4603      	mov	r3, r0
- 80001d0:	71fb      	strb	r3, [r7, #7]
+ 80001dc:	b480      	push	{r7}
+ 80001de:	b083      	sub	sp, #12
+ 80001e0:	af00      	add	r7, sp, #0
+ 80001e2:	4603      	mov	r3, r0
+ 80001e4:	71fb      	strb	r3, [r7, #7]
   if ((int32_t)(IRQn) >= 0)
- 80001d2:	f997 3007 	ldrsb.w	r3, [r7, #7]
- 80001d6:	2b00      	cmp	r3, #0
- 80001d8:	db0b      	blt.n	80001f2 <__NVIC_EnableIRQ+0x2a>
+ 80001e6:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 80001ea:	2b00      	cmp	r3, #0
+ 80001ec:	db0b      	blt.n	8000206 <__NVIC_EnableIRQ+0x2a>
   {
     NVIC->ISER[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
- 80001da:	79fb      	ldrb	r3, [r7, #7]
- 80001dc:	f003 021f 	and.w	r2, r3, #31
- 80001e0:	4907      	ldr	r1, [pc, #28]	; (8000200 <__NVIC_EnableIRQ+0x38>)
- 80001e2:	f997 3007 	ldrsb.w	r3, [r7, #7]
- 80001e6:	095b      	lsrs	r3, r3, #5
- 80001e8:	2001      	movs	r0, #1
- 80001ea:	fa00 f202 	lsl.w	r2, r0, r2
- 80001ee:	f841 2023 	str.w	r2, [r1, r3, lsl #2]
+ 80001ee:	79fb      	ldrb	r3, [r7, #7]
+ 80001f0:	f003 021f 	and.w	r2, r3, #31
+ 80001f4:	4907      	ldr	r1, [pc, #28]	; (8000214 <__NVIC_EnableIRQ+0x38>)
+ 80001f6:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 80001fa:	095b      	lsrs	r3, r3, #5
+ 80001fc:	2001      	movs	r0, #1
+ 80001fe:	fa00 f202 	lsl.w	r2, r0, r2
+ 8000202:	f841 2023 	str.w	r2, [r1, r3, lsl #2]
   }
 }
- 80001f2:	bf00      	nop
- 80001f4:	370c      	adds	r7, #12
- 80001f6:	46bd      	mov	sp, r7
- 80001f8:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80001fc:	4770      	bx	lr
- 80001fe:	bf00      	nop
- 8000200:	e000e100 	.word	0xe000e100
+ 8000206:	bf00      	nop
+ 8000208:	370c      	adds	r7, #12
+ 800020a:	46bd      	mov	sp, r7
+ 800020c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000210:	4770      	bx	lr
+ 8000212:	bf00      	nop
+ 8000214:	e000e100 	.word	0xe000e100
 
-08000204 <CanInit>:
+08000218 <CanInit>:
  */
 
 #include "can.h"
 
 
 void CanInit(void) {
- 8000204:	b580      	push	{r7, lr}
- 8000206:	af00      	add	r7, sp, #0
+ 8000218:	b580      	push	{r7, lr}
+ 800021a:	af00      	add	r7, sp, #0
 
 
 	CAN->MCR |= CAN_MCR_INRQ;			// Initialisation mode on
- 8000208:	4b11      	ldr	r3, [pc, #68]	; (8000250 <CanInit+0x4c>)
- 800020a:	681b      	ldr	r3, [r3, #0]
- 800020c:	4a10      	ldr	r2, [pc, #64]	; (8000250 <CanInit+0x4c>)
- 800020e:	f043 0301 	orr.w	r3, r3, #1
- 8000212:	6013      	str	r3, [r2, #0]
+ 800021c:	4b14      	ldr	r3, [pc, #80]	; (8000270 <CanInit+0x58>)
+ 800021e:	681b      	ldr	r3, [r3, #0]
+ 8000220:	4a13      	ldr	r2, [pc, #76]	; (8000270 <CanInit+0x58>)
+ 8000222:	f043 0301 	orr.w	r3, r3, #1
+ 8000226:	6013      	str	r3, [r2, #0]
 
 	// *** CAN Test Mode *** //
 //	CAN1->BTR |= CAN_BTR_LBKM;			// Loopback mode enabled (For Debug purposes)
 	// ********************* //
 
 	NVIC_EnableIRQ(CAN_TX_IRQn);
- 8000214:	2013      	movs	r0, #19
- 8000216:	f7ff ffd7 	bl	80001c8 <__NVIC_EnableIRQ>
+ 8000228:	2013      	movs	r0, #19
+ 800022a:	f7ff ffd7 	bl	80001dc <__NVIC_EnableIRQ>
 	NVIC_EnableIRQ(CAN_RX0_IRQn);
- 800021a:	2014      	movs	r0, #20
- 800021c:	f7ff ffd4 	bl	80001c8 <__NVIC_EnableIRQ>
+ 800022e:	2014      	movs	r0, #20
+ 8000230:	f7ff ffd4 	bl	80001dc <__NVIC_EnableIRQ>
 
+	CAN->IER |= CAN_IER_FMPIE0;			// FIFO message pending interrupt enable
+ 8000234:	4b0e      	ldr	r3, [pc, #56]	; (8000270 <CanInit+0x58>)
+ 8000236:	695b      	ldr	r3, [r3, #20]
+ 8000238:	4a0d      	ldr	r2, [pc, #52]	; (8000270 <CanInit+0x58>)
+ 800023a:	f043 0302 	orr.w	r3, r3, #2
+ 800023e:	6153      	str	r3, [r2, #20]
 
 	CAN->BTR = 0x00070004;				// CAN Bitrate: 2010000 (data for the logic analyser debug purposes)
- 8000220:	4b0b      	ldr	r3, [pc, #44]	; (8000250 <CanInit+0x4c>)
- 8000222:	4a0c      	ldr	r2, [pc, #48]	; (8000254 <CanInit+0x50>)
- 8000224:	61da      	str	r2, [r3, #28]
+ 8000240:	4b0b      	ldr	r3, [pc, #44]	; (8000270 <CanInit+0x58>)
+ 8000242:	4a0c      	ldr	r2, [pc, #48]	; (8000274 <CanInit+0x5c>)
+ 8000244:	61da      	str	r2, [r3, #28]
 
 	CAN->MCR &= ~CAN_MCR_INRQ;			// Initialisation mode off
- 8000226:	4b0a      	ldr	r3, [pc, #40]	; (8000250 <CanInit+0x4c>)
- 8000228:	681b      	ldr	r3, [r3, #0]
- 800022a:	4a09      	ldr	r2, [pc, #36]	; (8000250 <CanInit+0x4c>)
- 800022c:	f023 0301 	bic.w	r3, r3, #1
- 8000230:	6013      	str	r3, [r2, #0]
+ 8000246:	4b0a      	ldr	r3, [pc, #40]	; (8000270 <CanInit+0x58>)
+ 8000248:	681b      	ldr	r3, [r3, #0]
+ 800024a:	4a09      	ldr	r2, [pc, #36]	; (8000270 <CanInit+0x58>)
+ 800024c:	f023 0301 	bic.w	r3, r3, #1
+ 8000250:	6013      	str	r3, [r2, #0]
 	while (CAN->MSR & CAN_MCR_INRQ);
- 8000232:	bf00      	nop
- 8000234:	4b06      	ldr	r3, [pc, #24]	; (8000250 <CanInit+0x4c>)
- 8000236:	685b      	ldr	r3, [r3, #4]
- 8000238:	f003 0301 	and.w	r3, r3, #1
- 800023c:	2b00      	cmp	r3, #0
- 800023e:	d1f9      	bne.n	8000234 <CanInit+0x30>
+ 8000252:	bf00      	nop
+ 8000254:	4b06      	ldr	r3, [pc, #24]	; (8000270 <CanInit+0x58>)
+ 8000256:	685b      	ldr	r3, [r3, #4]
+ 8000258:	f003 0301 	and.w	r3, r3, #1
+ 800025c:	2b00      	cmp	r3, #0
+ 800025e:	d1f9      	bne.n	8000254 <CanInit+0x3c>
 
 
 
 	CAN->MCR &= ~CAN_MCR_SLEEP;
- 8000240:	4b03      	ldr	r3, [pc, #12]	; (8000250 <CanInit+0x4c>)
- 8000242:	681b      	ldr	r3, [r3, #0]
- 8000244:	4a02      	ldr	r2, [pc, #8]	; (8000250 <CanInit+0x4c>)
- 8000246:	f023 0302 	bic.w	r3, r3, #2
- 800024a:	6013      	str	r3, [r2, #0]
+ 8000260:	4b03      	ldr	r3, [pc, #12]	; (8000270 <CanInit+0x58>)
+ 8000262:	681b      	ldr	r3, [r3, #0]
+ 8000264:	4a02      	ldr	r2, [pc, #8]	; (8000270 <CanInit+0x58>)
+ 8000266:	f023 0302 	bic.w	r3, r3, #2
+ 800026a:	6013      	str	r3, [r2, #0]
 
 
 }
- 800024c:	bf00      	nop
- 800024e:	bd80      	pop	{r7, pc}
- 8000250:	40006400 	.word	0x40006400
- 8000254:	00070004 	.word	0x00070004
+ 800026c:	bf00      	nop
+ 800026e:	bd80      	pop	{r7, pc}
+ 8000270:	40006400 	.word	0x40006400
+ 8000274:	00070004 	.word	0x00070004
 
-08000258 <Can_Rx_Msg>:
+08000278 <Can_Tx_Msg>:
+
+
+void Can_Tx_Msg(CAN_MESSAGE * msg) {
+ 8000278:	b480      	push	{r7}
+ 800027a:	b083      	sub	sp, #12
+ 800027c:	af00      	add	r7, sp, #0
+ 800027e:	6078      	str	r0, [r7, #4]
+
+	CAN->sTxMailBox[0].TIR = 0;		// Empty TIR register
+ 8000280:	4b3c      	ldr	r3, [pc, #240]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 8000282:	2200      	movs	r2, #0
+ 8000284:	f8c3 2180 	str.w	r2, [r3, #384]	; 0x180
+
+	if(msg->format == STANDARD_FORMAT)	{
+ 8000288:	687b      	ldr	r3, [r7, #4]
+ 800028a:	691b      	ldr	r3, [r3, #16]
+ 800028c:	2b00      	cmp	r3, #0
+ 800028e:	d10a      	bne.n	80002a6 <Can_Tx_Msg+0x2e>
+		CAN->sTxMailBox[0].TIR |= (u_int) (msg->id << 21) | CAN_ID_STD;
+ 8000290:	4b38      	ldr	r3, [pc, #224]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 8000292:	f8d3 2180 	ldr.w	r2, [r3, #384]	; 0x180
+ 8000296:	687b      	ldr	r3, [r7, #4]
+ 8000298:	681b      	ldr	r3, [r3, #0]
+ 800029a:	055b      	lsls	r3, r3, #21
+ 800029c:	4935      	ldr	r1, [pc, #212]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 800029e:	4313      	orrs	r3, r2
+ 80002a0:	f8c1 3180 	str.w	r3, [r1, #384]	; 0x180
+ 80002a4:	e009      	b.n	80002ba <Can_Tx_Msg+0x42>
+	} else {
+		CAN->sTxMailBox[0].TIR |= (u_int) (msg->id << 3) | CAN_ID_EXT;
+ 80002a6:	4b33      	ldr	r3, [pc, #204]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 80002a8:	f8d3 2180 	ldr.w	r2, [r3, #384]	; 0x180
+ 80002ac:	687b      	ldr	r3, [r7, #4]
+ 80002ae:	681b      	ldr	r3, [r3, #0]
+ 80002b0:	00db      	lsls	r3, r3, #3
+ 80002b2:	4930      	ldr	r1, [pc, #192]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 80002b4:	4313      	orrs	r3, r2
+ 80002b6:	f8c1 3180 	str.w	r3, [r1, #384]	; 0x180
+	}
+
+	if (msg->type == DATA_FRAME)  {                 // DATA FRAME
+ 80002ba:	687b      	ldr	r3, [r7, #4]
+ 80002bc:	695b      	ldr	r3, [r3, #20]
+ 80002be:	2b00      	cmp	r3, #0
+ 80002c0:	d106      	bne.n	80002d0 <Can_Tx_Msg+0x58>
+	    CAN->sTxMailBox[0].TIR |= CAN_RTR_DATA;
+ 80002c2:	4b2c      	ldr	r3, [pc, #176]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 80002c4:	4a2b      	ldr	r2, [pc, #172]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 80002c6:	f8d3 3180 	ldr.w	r3, [r3, #384]	; 0x180
+ 80002ca:	f8c2 3180 	str.w	r3, [r2, #384]	; 0x180
+ 80002ce:	e005      	b.n	80002dc <Can_Tx_Msg+0x64>
+	} else {                                        // REMOTE FRAME
+	    CAN->sTxMailBox[0].TIR |= CAN_RTR_REMOTE;
+ 80002d0:	4b28      	ldr	r3, [pc, #160]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 80002d2:	4a28      	ldr	r2, [pc, #160]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 80002d4:	f8d3 3180 	ldr.w	r3, [r3, #384]	; 0x180
+ 80002d8:	f8c2 3180 	str.w	r3, [r2, #384]	; 0x180
+	}
+
+	CAN->sTxMailBox[0].TDLR = (((u_int)msg->data[3] << 24) |
+ 80002dc:	687b      	ldr	r3, [r7, #4]
+ 80002de:	79db      	ldrb	r3, [r3, #7]
+ 80002e0:	061a      	lsls	r2, r3, #24
+	                          ((u_int)msg->data[2] << 16) |
+ 80002e2:	687b      	ldr	r3, [r7, #4]
+ 80002e4:	799b      	ldrb	r3, [r3, #6]
+ 80002e6:	041b      	lsls	r3, r3, #16
+	CAN->sTxMailBox[0].TDLR = (((u_int)msg->data[3] << 24) |
+ 80002e8:	431a      	orrs	r2, r3
+	                          ((u_int)msg->data[1] <<  8) |
+ 80002ea:	687b      	ldr	r3, [r7, #4]
+ 80002ec:	795b      	ldrb	r3, [r3, #5]
+ 80002ee:	021b      	lsls	r3, r3, #8
+	                          ((u_int)msg->data[2] << 16) |
+ 80002f0:	4313      	orrs	r3, r2
+	                          ((u_int)msg->data[0]));
+ 80002f2:	687a      	ldr	r2, [r7, #4]
+ 80002f4:	7912      	ldrb	r2, [r2, #4]
+ 80002f6:	4611      	mov	r1, r2
+	CAN->sTxMailBox[0].TDLR = (((u_int)msg->data[3] << 24) |
+ 80002f8:	4a1e      	ldr	r2, [pc, #120]	; (8000374 <Can_Tx_Msg+0xfc>)
+	                          ((u_int)msg->data[1] <<  8) |
+ 80002fa:	430b      	orrs	r3, r1
+	CAN->sTxMailBox[0].TDLR = (((u_int)msg->data[3] << 24) |
+ 80002fc:	f8c2 3188 	str.w	r3, [r2, #392]	; 0x188
+	CAN->sTxMailBox[0].TDHR = (((u_int)msg->data[7] << 24) |
+ 8000300:	687b      	ldr	r3, [r7, #4]
+ 8000302:	7adb      	ldrb	r3, [r3, #11]
+ 8000304:	061a      	lsls	r2, r3, #24
+	                          ((u_int)msg->data[6] << 16) |
+ 8000306:	687b      	ldr	r3, [r7, #4]
+ 8000308:	7a9b      	ldrb	r3, [r3, #10]
+ 800030a:	041b      	lsls	r3, r3, #16
+	CAN->sTxMailBox[0].TDHR = (((u_int)msg->data[7] << 24) |
+ 800030c:	431a      	orrs	r2, r3
+	                          ((u_int)msg->data[5] <<  8) |
+ 800030e:	687b      	ldr	r3, [r7, #4]
+ 8000310:	7a5b      	ldrb	r3, [r3, #9]
+ 8000312:	021b      	lsls	r3, r3, #8
+	                          ((u_int)msg->data[6] << 16) |
+ 8000314:	4313      	orrs	r3, r2
+	                          ((u_int)msg->data[4]));
+ 8000316:	687a      	ldr	r2, [r7, #4]
+ 8000318:	7a12      	ldrb	r2, [r2, #8]
+ 800031a:	4611      	mov	r1, r2
+	CAN->sTxMailBox[0].TDHR = (((u_int)msg->data[7] << 24) |
+ 800031c:	4a15      	ldr	r2, [pc, #84]	; (8000374 <Can_Tx_Msg+0xfc>)
+	                          ((u_int)msg->data[5] <<  8) |
+ 800031e:	430b      	orrs	r3, r1
+	CAN->sTxMailBox[0].TDHR = (((u_int)msg->data[7] << 24) |
+ 8000320:	f8c2 318c 	str.w	r3, [r2, #396]	; 0x18c
+
+	CAN->sTxMailBox[0].TDTR &= ~CAN_TDT1R_DLC;
+ 8000324:	4b13      	ldr	r3, [pc, #76]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 8000326:	f8d3 3184 	ldr.w	r3, [r3, #388]	; 0x184
+ 800032a:	4a12      	ldr	r2, [pc, #72]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 800032c:	f023 030f 	bic.w	r3, r3, #15
+ 8000330:	f8c2 3184 	str.w	r3, [r2, #388]	; 0x184
+	CAN->sTxMailBox[0].TDTR |=  (msg->len & CAN_TDT0R_DLC);
+ 8000334:	4b0f      	ldr	r3, [pc, #60]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 8000336:	f8d3 2184 	ldr.w	r2, [r3, #388]	; 0x184
+ 800033a:	687b      	ldr	r3, [r7, #4]
+ 800033c:	68db      	ldr	r3, [r3, #12]
+ 800033e:	f003 030f 	and.w	r3, r3, #15
+ 8000342:	490c      	ldr	r1, [pc, #48]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 8000344:	4313      	orrs	r3, r2
+ 8000346:	f8c1 3184 	str.w	r3, [r1, #388]	; 0x184
+
+	CAN->IER |= CAN_IER_TMEIE;                      // enable  TME interrupt
+ 800034a:	4b0a      	ldr	r3, [pc, #40]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 800034c:	695b      	ldr	r3, [r3, #20]
+ 800034e:	4a09      	ldr	r2, [pc, #36]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 8000350:	f043 0301 	orr.w	r3, r3, #1
+ 8000354:	6153      	str	r3, [r2, #20]
 	CAN->sTxMailBox[0].TIR |=  CAN_TI0R_TXRQ;       // transmit message
+ 8000356:	4b07      	ldr	r3, [pc, #28]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 8000358:	f8d3 3180 	ldr.w	r3, [r3, #384]	; 0x180
+ 800035c:	4a05      	ldr	r2, [pc, #20]	; (8000374 <Can_Tx_Msg+0xfc>)
+ 800035e:	f043 0301 	orr.w	r3, r3, #1
+ 8000362:	f8c2 3180 	str.w	r3, [r2, #384]	; 0x180
 
 }
+ 8000366:	bf00      	nop
+ 8000368:	370c      	adds	r7, #12
+ 800036a:	46bd      	mov	sp, r7
+ 800036c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000370:	4770      	bx	lr
+ 8000372:	bf00      	nop
+ 8000374:	40006400 	.word	0x40006400
+
+08000378 <Can_Rx_Msg>:
 
 
 void Can_Rx_Msg(CAN_MESSAGE * msg) {
- 8000258:	b480      	push	{r7}
- 800025a:	b083      	sub	sp, #12
- 800025c:	af00      	add	r7, sp, #0
- 800025e:	6078      	str	r0, [r7, #4]
+ 8000378:	b480      	push	{r7}
+ 800037a:	b083      	sub	sp, #12
+ 800037c:	af00      	add	r7, sp, #0
+ 800037e:	6078      	str	r0, [r7, #4]
 
 	if ((CAN->sFIFOMailBox[0].RIR & CAN_ID_EXT) == 0) { // Standard ID
- 8000260:	4b2e      	ldr	r3, [pc, #184]	; (800031c <Can_Rx_Msg+0xc4>)
- 8000262:	f8d3 31b0 	ldr.w	r3, [r3, #432]	; 0x1b0
+ 8000380:	4b2e      	ldr	r3, [pc, #184]	; (800043c <Can_Rx_Msg+0xc4>)
+ 8000382:	f8d3 31b0 	ldr.w	r3, [r3, #432]	; 0x1b0
 	    msg->format = STANDARD_FORMAT;
- 8000266:	687b      	ldr	r3, [r7, #4]
- 8000268:	2200      	movs	r2, #0
- 800026a:	611a      	str	r2, [r3, #16]
+ 8000386:	687b      	ldr	r3, [r7, #4]
+ 8000388:	2200      	movs	r2, #0
+ 800038a:	611a      	str	r2, [r3, #16]
 	    msg->id     = (uint32_t)0x000007FF & (CAN->sFIFOMailBox[0].RIR >> 21);
- 800026c:	4b2b      	ldr	r3, [pc, #172]	; (800031c <Can_Rx_Msg+0xc4>)
- 800026e:	f8d3 31b0 	ldr.w	r3, [r3, #432]	; 0x1b0
- 8000272:	0d5b      	lsrs	r3, r3, #21
- 8000274:	f3c3 020a 	ubfx	r2, r3, #0, #11
- 8000278:	687b      	ldr	r3, [r7, #4]
- 800027a:	601a      	str	r2, [r3, #0]
+ 800038c:	4b2b      	ldr	r3, [pc, #172]	; (800043c <Can_Rx_Msg+0xc4>)
+ 800038e:	f8d3 31b0 	ldr.w	r3, [r3, #432]	; 0x1b0
+ 8000392:	0d5b      	lsrs	r3, r3, #21
+ 8000394:	f3c3 020a 	ubfx	r2, r3, #0, #11
+ 8000398:	687b      	ldr	r3, [r7, #4]
+ 800039a:	601a      	str	r2, [r3, #0]
 	  }  else  {                                          // Extended ID
 	    msg->format = EXTENDED_FORMAT;
 	    msg->id     = (uint32_t)0x0003FFFF & (CAN->sFIFOMailBox[0].RIR >> 3);
 	  }
 	                                                  // Read type information
 	  if ((CAN->sFIFOMailBox[0].RIR & CAN_RTR_REMOTE) == 0) {
- 800027c:	4b27      	ldr	r3, [pc, #156]	; (800031c <Can_Rx_Msg+0xc4>)
- 800027e:	f8d3 31b0 	ldr.w	r3, [r3, #432]	; 0x1b0
+ 800039c:	4b27      	ldr	r3, [pc, #156]	; (800043c <Can_Rx_Msg+0xc4>)
+ 800039e:	f8d3 31b0 	ldr.w	r3, [r3, #432]	; 0x1b0
 	    msg->type =   DATA_FRAME;                     // DATA   FRAME
- 8000282:	687b      	ldr	r3, [r7, #4]
- 8000284:	2200      	movs	r2, #0
- 8000286:	615a      	str	r2, [r3, #20]
+ 80003a2:	687b      	ldr	r3, [r7, #4]
+ 80003a4:	2200      	movs	r2, #0
+ 80003a6:	615a      	str	r2, [r3, #20]
 	  }  else  {
 	    msg->type = REMOTE_FRAME;                     // REMOTE FRAME
 	  }
 
 	  msg->len = (char)0x0000000F & CAN->sFIFOMailBox[0].RDTR;
- 8000288:	4b24      	ldr	r3, [pc, #144]	; (800031c <Can_Rx_Msg+0xc4>)
- 800028a:	f8d3 31b4 	ldr.w	r3, [r3, #436]	; 0x1b4
- 800028e:	f003 020f 	and.w	r2, r3, #15
- 8000292:	687b      	ldr	r3, [r7, #4]
- 8000294:	60da      	str	r2, [r3, #12]
+ 80003a8:	4b24      	ldr	r3, [pc, #144]	; (800043c <Can_Rx_Msg+0xc4>)
+ 80003aa:	f8d3 31b4 	ldr.w	r3, [r3, #436]	; 0x1b4
+ 80003ae:	f003 020f 	and.w	r2, r3, #15
+ 80003b2:	687b      	ldr	r3, [r7, #4]
+ 80003b4:	60da      	str	r2, [r3, #12]
 	                                                    // Read data
 	  msg->data[0] = (u_int)0x000000FF & (CAN->sFIFOMailBox[0].RDLR);
- 8000296:	4b21      	ldr	r3, [pc, #132]	; (800031c <Can_Rx_Msg+0xc4>)
- 8000298:	f8d3 31b8 	ldr.w	r3, [r3, #440]	; 0x1b8
- 800029c:	b2da      	uxtb	r2, r3
- 800029e:	687b      	ldr	r3, [r7, #4]
- 80002a0:	711a      	strb	r2, [r3, #4]
+ 80003b6:	4b21      	ldr	r3, [pc, #132]	; (800043c <Can_Rx_Msg+0xc4>)
+ 80003b8:	f8d3 31b8 	ldr.w	r3, [r3, #440]	; 0x1b8
+ 80003bc:	b2da      	uxtb	r2, r3
+ 80003be:	687b      	ldr	r3, [r7, #4]
+ 80003c0:	711a      	strb	r2, [r3, #4]
 	  msg->data[1] = (u_int)0x000000FF & (CAN->sFIFOMailBox[0].RDLR >> 8);
- 80002a2:	4b1e      	ldr	r3, [pc, #120]	; (800031c <Can_Rx_Msg+0xc4>)
- 80002a4:	f8d3 31b8 	ldr.w	r3, [r3, #440]	; 0x1b8
- 80002a8:	0a1b      	lsrs	r3, r3, #8
- 80002aa:	b2da      	uxtb	r2, r3
- 80002ac:	687b      	ldr	r3, [r7, #4]
- 80002ae:	715a      	strb	r2, [r3, #5]
+ 80003c2:	4b1e      	ldr	r3, [pc, #120]	; (800043c <Can_Rx_Msg+0xc4>)
+ 80003c4:	f8d3 31b8 	ldr.w	r3, [r3, #440]	; 0x1b8
+ 80003c8:	0a1b      	lsrs	r3, r3, #8
+ 80003ca:	b2da      	uxtb	r2, r3
+ 80003cc:	687b      	ldr	r3, [r7, #4]
+ 80003ce:	715a      	strb	r2, [r3, #5]
 	  msg->data[2] = (u_int)0x000000FF & (CAN->sFIFOMailBox[0].RDLR >> 16);
- 80002b0:	4b1a      	ldr	r3, [pc, #104]	; (800031c <Can_Rx_Msg+0xc4>)
- 80002b2:	f8d3 31b8 	ldr.w	r3, [r3, #440]	; 0x1b8
- 80002b6:	0c1b      	lsrs	r3, r3, #16
- 80002b8:	b2da      	uxtb	r2, r3
- 80002ba:	687b      	ldr	r3, [r7, #4]
- 80002bc:	719a      	strb	r2, [r3, #6]
+ 80003d0:	4b1a      	ldr	r3, [pc, #104]	; (800043c <Can_Rx_Msg+0xc4>)
+ 80003d2:	f8d3 31b8 	ldr.w	r3, [r3, #440]	; 0x1b8
+ 80003d6:	0c1b      	lsrs	r3, r3, #16
+ 80003d8:	b2da      	uxtb	r2, r3
+ 80003da:	687b      	ldr	r3, [r7, #4]
+ 80003dc:	719a      	strb	r2, [r3, #6]
 	  msg->data[3] = (u_int)0x000000FF & (CAN->sFIFOMailBox[0].RDLR >> 24);
- 80002be:	4b17      	ldr	r3, [pc, #92]	; (800031c <Can_Rx_Msg+0xc4>)
- 80002c0:	f8d3 31b8 	ldr.w	r3, [r3, #440]	; 0x1b8
- 80002c4:	0e1b      	lsrs	r3, r3, #24
- 80002c6:	b2da      	uxtb	r2, r3
- 80002c8:	687b      	ldr	r3, [r7, #4]
- 80002ca:	71da      	strb	r2, [r3, #7]
+ 80003de:	4b17      	ldr	r3, [pc, #92]	; (800043c <Can_Rx_Msg+0xc4>)
+ 80003e0:	f8d3 31b8 	ldr.w	r3, [r3, #440]	; 0x1b8
+ 80003e4:	0e1b      	lsrs	r3, r3, #24
+ 80003e6:	b2da      	uxtb	r2, r3
+ 80003e8:	687b      	ldr	r3, [r7, #4]
+ 80003ea:	71da      	strb	r2, [r3, #7]
 
 	  msg->data[4] = (u_int)0x000000FF & (CAN->sFIFOMailBox[0].RDHR);
- 80002cc:	4b13      	ldr	r3, [pc, #76]	; (800031c <Can_Rx_Msg+0xc4>)
- 80002ce:	f8d3 31bc 	ldr.w	r3, [r3, #444]	; 0x1bc
- 80002d2:	b2da      	uxtb	r2, r3
- 80002d4:	687b      	ldr	r3, [r7, #4]
- 80002d6:	721a      	strb	r2, [r3, #8]
+ 80003ec:	4b13      	ldr	r3, [pc, #76]	; (800043c <Can_Rx_Msg+0xc4>)
+ 80003ee:	f8d3 31bc 	ldr.w	r3, [r3, #444]	; 0x1bc
+ 80003f2:	b2da      	uxtb	r2, r3
+ 80003f4:	687b      	ldr	r3, [r7, #4]
+ 80003f6:	721a      	strb	r2, [r3, #8]
 	  msg->data[5] = (u_int)0x000000FF & (CAN->sFIFOMailBox[0].RDHR >> 8);
- 80002d8:	4b10      	ldr	r3, [pc, #64]	; (800031c <Can_Rx_Msg+0xc4>)
- 80002da:	f8d3 31bc 	ldr.w	r3, [r3, #444]	; 0x1bc
- 80002de:	0a1b      	lsrs	r3, r3, #8
- 80002e0:	b2da      	uxtb	r2, r3
- 80002e2:	687b      	ldr	r3, [r7, #4]
- 80002e4:	725a      	strb	r2, [r3, #9]
+ 80003f8:	4b10      	ldr	r3, [pc, #64]	; (800043c <Can_Rx_Msg+0xc4>)
+ 80003fa:	f8d3 31bc 	ldr.w	r3, [r3, #444]	; 0x1bc
+ 80003fe:	0a1b      	lsrs	r3, r3, #8
+ 8000400:	b2da      	uxtb	r2, r3
+ 8000402:	687b      	ldr	r3, [r7, #4]
+ 8000404:	725a      	strb	r2, [r3, #9]
 	  msg->data[6] = (u_int)0x000000FF & (CAN->sFIFOMailBox[0].RDHR >> 16);
- 80002e6:	4b0d      	ldr	r3, [pc, #52]	; (800031c <Can_Rx_Msg+0xc4>)
- 80002e8:	f8d3 31bc 	ldr.w	r3, [r3, #444]	; 0x1bc
- 80002ec:	0c1b      	lsrs	r3, r3, #16
- 80002ee:	b2da      	uxtb	r2, r3
- 80002f0:	687b      	ldr	r3, [r7, #4]
- 80002f2:	729a      	strb	r2, [r3, #10]
+ 8000406:	4b0d      	ldr	r3, [pc, #52]	; (800043c <Can_Rx_Msg+0xc4>)
+ 8000408:	f8d3 31bc 	ldr.w	r3, [r3, #444]	; 0x1bc
+ 800040c:	0c1b      	lsrs	r3, r3, #16
+ 800040e:	b2da      	uxtb	r2, r3
+ 8000410:	687b      	ldr	r3, [r7, #4]
+ 8000412:	729a      	strb	r2, [r3, #10]
 	  msg->data[7] = (u_int)0x000000FF & (CAN->sFIFOMailBox[0].RDHR >> 24);
- 80002f4:	4b09      	ldr	r3, [pc, #36]	; (800031c <Can_Rx_Msg+0xc4>)
- 80002f6:	f8d3 31bc 	ldr.w	r3, [r3, #444]	; 0x1bc
- 80002fa:	0e1b      	lsrs	r3, r3, #24
- 80002fc:	b2da      	uxtb	r2, r3
- 80002fe:	687b      	ldr	r3, [r7, #4]
- 8000300:	72da      	strb	r2, [r3, #11]
+ 8000414:	4b09      	ldr	r3, [pc, #36]	; (800043c <Can_Rx_Msg+0xc4>)
+ 8000416:	f8d3 31bc 	ldr.w	r3, [r3, #444]	; 0x1bc
+ 800041a:	0e1b      	lsrs	r3, r3, #24
+ 800041c:	b2da      	uxtb	r2, r3
+ 800041e:	687b      	ldr	r3, [r7, #4]
+ 8000420:	72da      	strb	r2, [r3, #11]
 
 	  CAN->RF0R |= CAN_RF0R_RFOM0;                    // Release FIFO 0 output mailbox
- 8000302:	4b06      	ldr	r3, [pc, #24]	; (800031c <Can_Rx_Msg+0xc4>)
- 8000304:	68db      	ldr	r3, [r3, #12]
- 8000306:	4a05      	ldr	r2, [pc, #20]	; (800031c <Can_Rx_Msg+0xc4>)
- 8000308:	f043 0320 	orr.w	r3, r3, #32
- 800030c:	60d3      	str	r3, [r2, #12]
+ 8000422:	4b06      	ldr	r3, [pc, #24]	; (800043c <Can_Rx_Msg+0xc4>)
+ 8000424:	68db      	ldr	r3, [r3, #12]
+ 8000426:	4a05      	ldr	r2, [pc, #20]	; (800043c <Can_Rx_Msg+0xc4>)
+ 8000428:	f043 0320 	orr.w	r3, r3, #32
+ 800042c:	60d3      	str	r3, [r2, #12]
 
 }
- 800030e:	bf00      	nop
- 8000310:	370c      	adds	r7, #12
- 8000312:	46bd      	mov	sp, r7
- 8000314:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000318:	4770      	bx	lr
- 800031a:	bf00      	nop
- 800031c:	40006400 	.word	0x40006400
+ 800042e:	bf00      	nop
+ 8000430:	370c      	adds	r7, #12
+ 8000432:	46bd      	mov	sp, r7
+ 8000434:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000438:	4770      	bx	lr
+ 800043a:	bf00      	nop
+ 800043c:	40006400 	.word	0x40006400
 
-08000320 <Can_Set_Filter>:
+08000440 <Can_Set_Filter>:
 
 
 void Can_Set_Filter(uint id, char format) {
- 8000320:	b480      	push	{r7}
- 8000322:	b085      	sub	sp, #20
- 8000324:	af00      	add	r7, sp, #0
- 8000326:	6078      	str	r0, [r7, #4]
- 8000328:	460b      	mov	r3, r1
- 800032a:	70fb      	strb	r3, [r7, #3]
+ 8000440:	b480      	push	{r7}
+ 8000442:	b085      	sub	sp, #20
+ 8000444:	af00      	add	r7, sp, #0
+ 8000446:	6078      	str	r0, [r7, #4]
+ 8000448:	460b      	mov	r3, r1
+ 800044a:	70fb      	strb	r3, [r7, #3]
 
 	static unsigned short CAN_filterIdx = 0;
 	uint CAN_msgId = 0;
- 800032c:	2300      	movs	r3, #0
- 800032e:	60fb      	str	r3, [r7, #12]
+ 800044c:	2300      	movs	r3, #0
+ 800044e:	60fb      	str	r3, [r7, #12]
 
 	  if (CAN_filterIdx > 13) {                       // check if Filter Memory is full
- 8000330:	4b3f      	ldr	r3, [pc, #252]	; (8000430 <Can_Set_Filter+0x110>)
- 8000332:	881b      	ldrh	r3, [r3, #0]
- 8000334:	2b0d      	cmp	r3, #13
- 8000336:	d874      	bhi.n	8000422 <Can_Set_Filter+0x102>
+ 8000450:	4b3f      	ldr	r3, [pc, #252]	; (8000550 <Can_Set_Filter+0x110>)
+ 8000452:	881b      	ldrh	r3, [r3, #0]
+ 8000454:	2b0d      	cmp	r3, #13
+ 8000456:	d874      	bhi.n	8000542 <Can_Set_Filter+0x102>
 	    return;
 	  }
 	                                                  // Setup identifier information
 	  if (format == STANDARD_FORMAT)  {               // Standard ID
- 8000338:	78fb      	ldrb	r3, [r7, #3]
- 800033a:	2b00      	cmp	r3, #0
- 800033c:	d105      	bne.n	800034a <Can_Set_Filter+0x2a>
+ 8000458:	78fb      	ldrb	r3, [r7, #3]
+ 800045a:	2b00      	cmp	r3, #0
+ 800045c:	d105      	bne.n	800046a <Can_Set_Filter+0x2a>
 	      CAN_msgId  |= (unsigned int)(id << 21) | CAN_ID_STD;
- 800033e:	687b      	ldr	r3, [r7, #4]
- 8000340:	055b      	lsls	r3, r3, #21
- 8000342:	68fa      	ldr	r2, [r7, #12]
- 8000344:	4313      	orrs	r3, r2
- 8000346:	60fb      	str	r3, [r7, #12]
- 8000348:	e004      	b.n	8000354 <Can_Set_Filter+0x34>
+ 800045e:	687b      	ldr	r3, [r7, #4]
+ 8000460:	055b      	lsls	r3, r3, #21
+ 8000462:	68fa      	ldr	r2, [r7, #12]
+ 8000464:	4313      	orrs	r3, r2
+ 8000466:	60fb      	str	r3, [r7, #12]
+ 8000468:	e004      	b.n	8000474 <Can_Set_Filter+0x34>
 	  }  else  {                                      // Extended ID
 	      CAN_msgId  |= (unsigned int)(id <<  3) | CAN_ID_EXT;
- 800034a:	687b      	ldr	r3, [r7, #4]
- 800034c:	00db      	lsls	r3, r3, #3
- 800034e:	68fa      	ldr	r2, [r7, #12]
- 8000350:	4313      	orrs	r3, r2
- 8000352:	60fb      	str	r3, [r7, #12]
+ 800046a:	687b      	ldr	r3, [r7, #4]
+ 800046c:	00db      	lsls	r3, r3, #3
+ 800046e:	68fa      	ldr	r2, [r7, #12]
+ 8000470:	4313      	orrs	r3, r2
+ 8000472:	60fb      	str	r3, [r7, #12]
 	  }
 
 	  CAN->FMR  |=  CAN_FMR_FINIT;                    // set Initialisation mode for filter banks
- 8000354:	4b37      	ldr	r3, [pc, #220]	; (8000434 <Can_Set_Filter+0x114>)
- 8000356:	f8d3 3200 	ldr.w	r3, [r3, #512]	; 0x200
- 800035a:	4a36      	ldr	r2, [pc, #216]	; (8000434 <Can_Set_Filter+0x114>)
- 800035c:	f043 0301 	orr.w	r3, r3, #1
- 8000360:	f8c2 3200 	str.w	r3, [r2, #512]	; 0x200
+ 8000474:	4b37      	ldr	r3, [pc, #220]	; (8000554 <Can_Set_Filter+0x114>)
+ 8000476:	f8d3 3200 	ldr.w	r3, [r3, #512]	; 0x200
+ 800047a:	4a36      	ldr	r2, [pc, #216]	; (8000554 <Can_Set_Filter+0x114>)
+ 800047c:	f043 0301 	orr.w	r3, r3, #1
+ 8000480:	f8c2 3200 	str.w	r3, [r2, #512]	; 0x200
 	  CAN->FA1R &=  ~(unsigned int)(1 << CAN_filterIdx); // deactivate filter
- 8000364:	4b33      	ldr	r3, [pc, #204]	; (8000434 <Can_Set_Filter+0x114>)
- 8000366:	f8d3 221c 	ldr.w	r2, [r3, #540]	; 0x21c
- 800036a:	4b31      	ldr	r3, [pc, #196]	; (8000430 <Can_Set_Filter+0x110>)
- 800036c:	881b      	ldrh	r3, [r3, #0]
- 800036e:	4619      	mov	r1, r3
- 8000370:	2301      	movs	r3, #1
- 8000372:	408b      	lsls	r3, r1
- 8000374:	43db      	mvns	r3, r3
- 8000376:	492f      	ldr	r1, [pc, #188]	; (8000434 <Can_Set_Filter+0x114>)
- 8000378:	4013      	ands	r3, r2
- 800037a:	f8c1 321c 	str.w	r3, [r1, #540]	; 0x21c
+ 8000484:	4b33      	ldr	r3, [pc, #204]	; (8000554 <Can_Set_Filter+0x114>)
+ 8000486:	f8d3 221c 	ldr.w	r2, [r3, #540]	; 0x21c
+ 800048a:	4b31      	ldr	r3, [pc, #196]	; (8000550 <Can_Set_Filter+0x110>)
+ 800048c:	881b      	ldrh	r3, [r3, #0]
+ 800048e:	4619      	mov	r1, r3
+ 8000490:	2301      	movs	r3, #1
+ 8000492:	408b      	lsls	r3, r1
+ 8000494:	43db      	mvns	r3, r3
+ 8000496:	492f      	ldr	r1, [pc, #188]	; (8000554 <Can_Set_Filter+0x114>)
+ 8000498:	4013      	ands	r3, r2
+ 800049a:	f8c1 321c 	str.w	r3, [r1, #540]	; 0x21c
 
 	                                                  // initialize filter
 	  CAN->FS1R |= (unsigned int)(1 << CAN_filterIdx);// set 32-bit scale configuration
- 800037e:	4b2d      	ldr	r3, [pc, #180]	; (8000434 <Can_Set_Filter+0x114>)
- 8000380:	f8d3 320c 	ldr.w	r3, [r3, #524]	; 0x20c
- 8000384:	4a2a      	ldr	r2, [pc, #168]	; (8000430 <Can_Set_Filter+0x110>)
- 8000386:	8812      	ldrh	r2, [r2, #0]
- 8000388:	4611      	mov	r1, r2
- 800038a:	2201      	movs	r2, #1
- 800038c:	408a      	lsls	r2, r1
- 800038e:	4611      	mov	r1, r2
- 8000390:	4a28      	ldr	r2, [pc, #160]	; (8000434 <Can_Set_Filter+0x114>)
- 8000392:	430b      	orrs	r3, r1
- 8000394:	f8c2 320c 	str.w	r3, [r2, #524]	; 0x20c
+ 800049e:	4b2d      	ldr	r3, [pc, #180]	; (8000554 <Can_Set_Filter+0x114>)
+ 80004a0:	f8d3 320c 	ldr.w	r3, [r3, #524]	; 0x20c
+ 80004a4:	4a2a      	ldr	r2, [pc, #168]	; (8000550 <Can_Set_Filter+0x110>)
+ 80004a6:	8812      	ldrh	r2, [r2, #0]
+ 80004a8:	4611      	mov	r1, r2
+ 80004aa:	2201      	movs	r2, #1
+ 80004ac:	408a      	lsls	r2, r1
+ 80004ae:	4611      	mov	r1, r2
+ 80004b0:	4a28      	ldr	r2, [pc, #160]	; (8000554 <Can_Set_Filter+0x114>)
+ 80004b2:	430b      	orrs	r3, r1
+ 80004b4:	f8c2 320c 	str.w	r3, [r2, #524]	; 0x20c
 	  CAN->FM1R |= (unsigned int)(1 << CAN_filterIdx);// set 2 32-bit identifier list mode
- 8000398:	4b26      	ldr	r3, [pc, #152]	; (8000434 <Can_Set_Filter+0x114>)
- 800039a:	f8d3 3204 	ldr.w	r3, [r3, #516]	; 0x204
- 800039e:	4a24      	ldr	r2, [pc, #144]	; (8000430 <Can_Set_Filter+0x110>)
- 80003a0:	8812      	ldrh	r2, [r2, #0]
- 80003a2:	4611      	mov	r1, r2
- 80003a4:	2201      	movs	r2, #1
- 80003a6:	408a      	lsls	r2, r1
- 80003a8:	4611      	mov	r1, r2
- 80003aa:	4a22      	ldr	r2, [pc, #136]	; (8000434 <Can_Set_Filter+0x114>)
- 80003ac:	430b      	orrs	r3, r1
- 80003ae:	f8c2 3204 	str.w	r3, [r2, #516]	; 0x204
+ 80004b8:	4b26      	ldr	r3, [pc, #152]	; (8000554 <Can_Set_Filter+0x114>)
+ 80004ba:	f8d3 3204 	ldr.w	r3, [r3, #516]	; 0x204
+ 80004be:	4a24      	ldr	r2, [pc, #144]	; (8000550 <Can_Set_Filter+0x110>)
+ 80004c0:	8812      	ldrh	r2, [r2, #0]
+ 80004c2:	4611      	mov	r1, r2
+ 80004c4:	2201      	movs	r2, #1
+ 80004c6:	408a      	lsls	r2, r1
+ 80004c8:	4611      	mov	r1, r2
+ 80004ca:	4a22      	ldr	r2, [pc, #136]	; (8000554 <Can_Set_Filter+0x114>)
+ 80004cc:	430b      	orrs	r3, r1
+ 80004ce:	f8c2 3204 	str.w	r3, [r2, #516]	; 0x204
 
 	  CAN->sFilterRegister[CAN_filterIdx].FR1 = CAN_msgId; //  32-bit identifier
- 80003b2:	4920      	ldr	r1, [pc, #128]	; (8000434 <Can_Set_Filter+0x114>)
- 80003b4:	4b1e      	ldr	r3, [pc, #120]	; (8000430 <Can_Set_Filter+0x110>)
- 80003b6:	881b      	ldrh	r3, [r3, #0]
- 80003b8:	3348      	adds	r3, #72	; 0x48
- 80003ba:	68fa      	ldr	r2, [r7, #12]
- 80003bc:	f841 2033 	str.w	r2, [r1, r3, lsl #3]
+ 80004d2:	4920      	ldr	r1, [pc, #128]	; (8000554 <Can_Set_Filter+0x114>)
+ 80004d4:	4b1e      	ldr	r3, [pc, #120]	; (8000550 <Can_Set_Filter+0x110>)
+ 80004d6:	881b      	ldrh	r3, [r3, #0]
+ 80004d8:	3348      	adds	r3, #72	; 0x48
+ 80004da:	68fa      	ldr	r2, [r7, #12]
+ 80004dc:	f841 2033 	str.w	r2, [r1, r3, lsl #3]
 	  CAN->sFilterRegister[CAN_filterIdx].FR2 = CAN_msgId; //  32-bit identifier
- 80003c0:	4a1c      	ldr	r2, [pc, #112]	; (8000434 <Can_Set_Filter+0x114>)
- 80003c2:	4b1b      	ldr	r3, [pc, #108]	; (8000430 <Can_Set_Filter+0x110>)
- 80003c4:	881b      	ldrh	r3, [r3, #0]
- 80003c6:	3348      	adds	r3, #72	; 0x48
- 80003c8:	00db      	lsls	r3, r3, #3
- 80003ca:	4413      	add	r3, r2
- 80003cc:	68fa      	ldr	r2, [r7, #12]
- 80003ce:	605a      	str	r2, [r3, #4]
+ 80004e0:	4a1c      	ldr	r2, [pc, #112]	; (8000554 <Can_Set_Filter+0x114>)
+ 80004e2:	4b1b      	ldr	r3, [pc, #108]	; (8000550 <Can_Set_Filter+0x110>)
+ 80004e4:	881b      	ldrh	r3, [r3, #0]
+ 80004e6:	3348      	adds	r3, #72	; 0x48
+ 80004e8:	00db      	lsls	r3, r3, #3
+ 80004ea:	4413      	add	r3, r2
+ 80004ec:	68fa      	ldr	r2, [r7, #12]
+ 80004ee:	605a      	str	r2, [r3, #4]
 
 	  CAN->FFA1R &= ~(unsigned int)(1 << CAN_filterIdx);  // assign filter to FIFO 0
- 80003d0:	4b18      	ldr	r3, [pc, #96]	; (8000434 <Can_Set_Filter+0x114>)
- 80003d2:	f8d3 2214 	ldr.w	r2, [r3, #532]	; 0x214
- 80003d6:	4b16      	ldr	r3, [pc, #88]	; (8000430 <Can_Set_Filter+0x110>)
- 80003d8:	881b      	ldrh	r3, [r3, #0]
- 80003da:	4619      	mov	r1, r3
- 80003dc:	2301      	movs	r3, #1
- 80003de:	408b      	lsls	r3, r1
- 80003e0:	43db      	mvns	r3, r3
- 80003e2:	4914      	ldr	r1, [pc, #80]	; (8000434 <Can_Set_Filter+0x114>)
- 80003e4:	4013      	ands	r3, r2
- 80003e6:	f8c1 3214 	str.w	r3, [r1, #532]	; 0x214
+ 80004f0:	4b18      	ldr	r3, [pc, #96]	; (8000554 <Can_Set_Filter+0x114>)
+ 80004f2:	f8d3 2214 	ldr.w	r2, [r3, #532]	; 0x214
+ 80004f6:	4b16      	ldr	r3, [pc, #88]	; (8000550 <Can_Set_Filter+0x110>)
+ 80004f8:	881b      	ldrh	r3, [r3, #0]
+ 80004fa:	4619      	mov	r1, r3
+ 80004fc:	2301      	movs	r3, #1
+ 80004fe:	408b      	lsls	r3, r1
+ 8000500:	43db      	mvns	r3, r3
+ 8000502:	4914      	ldr	r1, [pc, #80]	; (8000554 <Can_Set_Filter+0x114>)
+ 8000504:	4013      	ands	r3, r2
+ 8000506:	f8c1 3214 	str.w	r3, [r1, #532]	; 0x214
 	  CAN->FA1R  |=  (unsigned int)(1 << CAN_filterIdx);  // activate filter
- 80003ea:	4b12      	ldr	r3, [pc, #72]	; (8000434 <Can_Set_Filter+0x114>)
- 80003ec:	f8d3 321c 	ldr.w	r3, [r3, #540]	; 0x21c
- 80003f0:	4a0f      	ldr	r2, [pc, #60]	; (8000430 <Can_Set_Filter+0x110>)
- 80003f2:	8812      	ldrh	r2, [r2, #0]
- 80003f4:	4611      	mov	r1, r2
- 80003f6:	2201      	movs	r2, #1
- 80003f8:	408a      	lsls	r2, r1
- 80003fa:	4611      	mov	r1, r2
- 80003fc:	4a0d      	ldr	r2, [pc, #52]	; (8000434 <Can_Set_Filter+0x114>)
- 80003fe:	430b      	orrs	r3, r1
- 8000400:	f8c2 321c 	str.w	r3, [r2, #540]	; 0x21c
+ 800050a:	4b12      	ldr	r3, [pc, #72]	; (8000554 <Can_Set_Filter+0x114>)
+ 800050c:	f8d3 321c 	ldr.w	r3, [r3, #540]	; 0x21c
+ 8000510:	4a0f      	ldr	r2, [pc, #60]	; (8000550 <Can_Set_Filter+0x110>)
+ 8000512:	8812      	ldrh	r2, [r2, #0]
+ 8000514:	4611      	mov	r1, r2
+ 8000516:	2201      	movs	r2, #1
+ 8000518:	408a      	lsls	r2, r1
+ 800051a:	4611      	mov	r1, r2
+ 800051c:	4a0d      	ldr	r2, [pc, #52]	; (8000554 <Can_Set_Filter+0x114>)
+ 800051e:	430b      	orrs	r3, r1
+ 8000520:	f8c2 321c 	str.w	r3, [r2, #540]	; 0x21c
 
 	  CAN->FMR &= ~CAN_FMR_FINIT;                     // reset Initialisation mode for filter banks
- 8000404:	4b0b      	ldr	r3, [pc, #44]	; (8000434 <Can_Set_Filter+0x114>)
- 8000406:	f8d3 3200 	ldr.w	r3, [r3, #512]	; 0x200
- 800040a:	4a0a      	ldr	r2, [pc, #40]	; (8000434 <Can_Set_Filter+0x114>)
- 800040c:	f023 0301 	bic.w	r3, r3, #1
- 8000410:	f8c2 3200 	str.w	r3, [r2, #512]	; 0x200
+ 8000524:	4b0b      	ldr	r3, [pc, #44]	; (8000554 <Can_Set_Filter+0x114>)
+ 8000526:	f8d3 3200 	ldr.w	r3, [r3, #512]	; 0x200
+ 800052a:	4a0a      	ldr	r2, [pc, #40]	; (8000554 <Can_Set_Filter+0x114>)
+ 800052c:	f023 0301 	bic.w	r3, r3, #1
+ 8000530:	f8c2 3200 	str.w	r3, [r2, #512]	; 0x200
 
 	  CAN_filterIdx += 1;                             // increase filter index
- 8000414:	4b06      	ldr	r3, [pc, #24]	; (8000430 <Can_Set_Filter+0x110>)
- 8000416:	881b      	ldrh	r3, [r3, #0]
- 8000418:	3301      	adds	r3, #1
- 800041a:	b29a      	uxth	r2, r3
- 800041c:	4b04      	ldr	r3, [pc, #16]	; (8000430 <Can_Set_Filter+0x110>)
- 800041e:	801a      	strh	r2, [r3, #0]
- 8000420:	e000      	b.n	8000424 <Can_Set_Filter+0x104>
+ 8000534:	4b06      	ldr	r3, [pc, #24]	; (8000550 <Can_Set_Filter+0x110>)
+ 8000536:	881b      	ldrh	r3, [r3, #0]
+ 8000538:	3301      	adds	r3, #1
+ 800053a:	b29a      	uxth	r2, r3
+ 800053c:	4b04      	ldr	r3, [pc, #16]	; (8000550 <Can_Set_Filter+0x110>)
+ 800053e:	801a      	strh	r2, [r3, #0]
+ 8000540:	e000      	b.n	8000544 <Can_Set_Filter+0x104>
 	    return;
- 8000422:	bf00      	nop
+ 8000542:	bf00      	nop
 
 }
- 8000424:	3714      	adds	r7, #20
- 8000426:	46bd      	mov	sp, r7
- 8000428:	f85d 7b04 	ldr.w	r7, [sp], #4
- 800042c:	4770      	bx	lr
- 800042e:	bf00      	nop
- 8000430:	2000001c 	.word	0x2000001c
- 8000434:	40006400 	.word	0x40006400
+ 8000544:	3714      	adds	r7, #20
+ 8000546:	46bd      	mov	sp, r7
+ 8000548:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800054c:	4770      	bx	lr
+ 800054e:	bf00      	nop
+ 8000550:	2000001c 	.word	0x2000001c
+ 8000554:	40006400 	.word	0x40006400
 
-08000438 <CAN_TX_IRQHandler>:
+08000558 <CAN_TX_IRQHandler>:
 
 
 __attribute__((interrupt)) void CAN_TX_IRQHandler (void)  {
- 8000438:	4668      	mov	r0, sp
- 800043a:	f020 0107 	bic.w	r1, r0, #7
- 800043e:	468d      	mov	sp, r1
- 8000440:	b481      	push	{r0, r7}
- 8000442:	af00      	add	r7, sp, #0
+ 8000558:	4668      	mov	r0, sp
+ 800055a:	f020 0107 	bic.w	r1, r0, #7
+ 800055e:	468d      	mov	sp, r1
+ 8000560:	b481      	push	{r0, r7}
+ 8000562:	af00      	add	r7, sp, #0
 	if (CAN->TSR & CAN_TSR_RQCP0) {                 // request completed mbx 0
- 8000444:	4b0b      	ldr	r3, [pc, #44]	; (8000474 <CAN_TX_IRQHandler+0x3c>)
- 8000446:	689b      	ldr	r3, [r3, #8]
- 8000448:	f003 0301 	and.w	r3, r3, #1
- 800044c:	2b00      	cmp	r3, #0
- 800044e:	d00b      	beq.n	8000468 <CAN_TX_IRQHandler+0x30>
+ 8000564:	4b0b      	ldr	r3, [pc, #44]	; (8000594 <CAN_TX_IRQHandler+0x3c>)
+ 8000566:	689b      	ldr	r3, [r3, #8]
+ 8000568:	f003 0301 	and.w	r3, r3, #1
+ 800056c:	2b00      	cmp	r3, #0
+ 800056e:	d00b      	beq.n	8000588 <CAN_TX_IRQHandler+0x30>
 	    CAN->TSR |= CAN_TSR_RQCP0;                  // reset request complete mbx 0
- 8000450:	4b08      	ldr	r3, [pc, #32]	; (8000474 <CAN_TX_IRQHandler+0x3c>)
- 8000452:	689b      	ldr	r3, [r3, #8]
- 8000454:	4a07      	ldr	r2, [pc, #28]	; (8000474 <CAN_TX_IRQHandler+0x3c>)
- 8000456:	f043 0301 	orr.w	r3, r3, #1
- 800045a:	6093      	str	r3, [r2, #8]
+ 8000570:	4b08      	ldr	r3, [pc, #32]	; (8000594 <CAN_TX_IRQHandler+0x3c>)
+ 8000572:	689b      	ldr	r3, [r3, #8]
+ 8000574:	4a07      	ldr	r2, [pc, #28]	; (8000594 <CAN_TX_IRQHandler+0x3c>)
+ 8000576:	f043 0301 	orr.w	r3, r3, #1
+ 800057a:	6093      	str	r3, [r2, #8]
 	    CAN->IER &= ~CAN_IER_TMEIE;                 // disable  TME interrupt
- 800045c:	4b05      	ldr	r3, [pc, #20]	; (8000474 <CAN_TX_IRQHandler+0x3c>)
- 800045e:	695b      	ldr	r3, [r3, #20]
- 8000460:	4a04      	ldr	r2, [pc, #16]	; (8000474 <CAN_TX_IRQHandler+0x3c>)
- 8000462:	f023 0301 	bic.w	r3, r3, #1
- 8000466:	6153      	str	r3, [r2, #20]
+ 800057c:	4b05      	ldr	r3, [pc, #20]	; (8000594 <CAN_TX_IRQHandler+0x3c>)
+ 800057e:	695b      	ldr	r3, [r3, #20]
+ 8000580:	4a04      	ldr	r2, [pc, #16]	; (8000594 <CAN_TX_IRQHandler+0x3c>)
+ 8000582:	f023 0301 	bic.w	r3, r3, #1
+ 8000586:	6153      	str	r3, [r2, #20]
 	}
 
-// Tx Interrupt Action
+	// Tx Interrupt Action (insert relevant code if needed)
 
 }
- 8000468:	bf00      	nop
- 800046a:	46bd      	mov	sp, r7
- 800046c:	bc81      	pop	{r0, r7}
- 800046e:	4685      	mov	sp, r0
- 8000470:	4770      	bx	lr
- 8000472:	bf00      	nop
- 8000474:	40006400 	.word	0x40006400
+ 8000588:	bf00      	nop
+ 800058a:	46bd      	mov	sp, r7
+ 800058c:	bc81      	pop	{r0, r7}
+ 800058e:	4685      	mov	sp, r0
+ 8000590:	4770      	bx	lr
+ 8000592:	bf00      	nop
+ 8000594:	40006400 	.word	0x40006400
 
-08000478 <CAN_RX0_IRQHandler>:
+08000598 <CAN_RX0_IRQHandler>:
 
 
 
 __attribute__((interrupt)) void CAN_RX0_IRQHandler (void) {
- 8000478:	4668      	mov	r0, sp
- 800047a:	f020 0107 	bic.w	r1, r0, #7
- 800047e:	468d      	mov	sp, r1
- 8000480:	b589      	push	{r0, r3, r7, lr}
- 8000482:	af00      	add	r7, sp, #0
+ 8000598:	4668      	mov	r0, sp
+ 800059a:	f020 0107 	bic.w	r1, r0, #7
+ 800059e:	468d      	mov	sp, r1
+ 80005a0:	b589      	push	{r0, r3, r7, lr}
+ 80005a2:	af00      	add	r7, sp, #0
 
 	if (CAN->RF0R & CAN_RF0R_FMP0) {			      // message pending ?
- 8000484:	4b07      	ldr	r3, [pc, #28]	; (80004a4 <CAN_RX0_IRQHandler+0x2c>)
- 8000486:	68db      	ldr	r3, [r3, #12]
- 8000488:	f003 0303 	and.w	r3, r3, #3
- 800048c:	2b00      	cmp	r3, #0
- 800048e:	d002      	beq.n	8000496 <CAN_RX0_IRQHandler+0x1e>
+ 80005a4:	4b07      	ldr	r3, [pc, #28]	; (80005c4 <CAN_RX0_IRQHandler+0x2c>)
+ 80005a6:	68db      	ldr	r3, [r3, #12]
+ 80005a8:	f003 0303 	and.w	r3, r3, #3
+ 80005ac:	2b00      	cmp	r3, #0
+ 80005ae:	d002      	beq.n	80005b6 <CAN_RX0_IRQHandler+0x1e>
 		Can_Rx_Msg(&can_rx_message);                  // read the message
- 8000490:	4805      	ldr	r0, [pc, #20]	; (80004a8 <CAN_RX0_IRQHandler+0x30>)
- 8000492:	f7ff fee1 	bl	8000258 <Can_Rx_Msg>
+ 80005b0:	4805      	ldr	r0, [pc, #20]	; (80005c8 <CAN_RX0_IRQHandler+0x30>)
+ 80005b2:	f7ff fee1 	bl	8000378 <Can_Rx_Msg>
 	}
 
-
 }
- 8000496:	bf00      	nop
- 8000498:	46bd      	mov	sp, r7
- 800049a:	e8bd 4089 	ldmia.w	sp!, {r0, r3, r7, lr}
- 800049e:	4685      	mov	sp, r0
- 80004a0:	4770      	bx	lr
- 80004a2:	bf00      	nop
- 80004a4:	40006400 	.word	0x40006400
- 80004a8:	20000020 	.word	0x20000020
+ 80005b6:	bf00      	nop
+ 80005b8:	46bd      	mov	sp, r7
+ 80005ba:	e8bd 4089 	ldmia.w	sp!, {r0, r3, r7, lr}
+ 80005be:	4685      	mov	sp, r0
+ 80005c0:	4770      	bx	lr
+ 80005c2:	bf00      	nop
+ 80005c4:	40006400 	.word	0x40006400
+ 80005c8:	20000020 	.word	0x20000020
 
-080004ac <SystemCFG>:
+080005cc <SystemCFG>:
  *      Author: Michal Makowka
  */
 #include "config.h"
 
 
 void SystemCFG (void) {
- 80004ac:	b480      	push	{r7}
- 80004ae:	af00      	add	r7, sp, #0
+ 80005cc:	b480      	push	{r7}
+ 80005ce:	af00      	add	r7, sp, #0
 
 
 	// *** Configure System Clock (36MHz for each system BUS) ***
 	RCC->CFGR |= RCC_CFGR_PLLMUL9;		// PLL Mult = X9
- 80004b0:	4b39      	ldr	r3, [pc, #228]	; (8000598 <SystemCFG+0xec>)
- 80004b2:	685b      	ldr	r3, [r3, #4]
- 80004b4:	4a38      	ldr	r2, [pc, #224]	; (8000598 <SystemCFG+0xec>)
- 80004b6:	f443 13e0 	orr.w	r3, r3, #1835008	; 0x1c0000
- 80004ba:	6053      	str	r3, [r2, #4]
+ 80005d0:	4b39      	ldr	r3, [pc, #228]	; (80006b8 <SystemCFG+0xec>)
+ 80005d2:	685b      	ldr	r3, [r3, #4]
+ 80005d4:	4a38      	ldr	r2, [pc, #224]	; (80006b8 <SystemCFG+0xec>)
+ 80005d6:	f443 13e0 	orr.w	r3, r3, #1835008	; 0x1c0000
+ 80005da:	6053      	str	r3, [r2, #4]
 	RCC->CFGR |= RCC_CFGR_SW_PLL;				// System Clock MUX switched to PLL
- 80004bc:	4b36      	ldr	r3, [pc, #216]	; (8000598 <SystemCFG+0xec>)
- 80004be:	685b      	ldr	r3, [r3, #4]
- 80004c0:	4a35      	ldr	r2, [pc, #212]	; (8000598 <SystemCFG+0xec>)
- 80004c2:	f043 0302 	orr.w	r3, r3, #2
- 80004c6:	6053      	str	r3, [r2, #4]
+ 80005dc:	4b36      	ldr	r3, [pc, #216]	; (80006b8 <SystemCFG+0xec>)
+ 80005de:	685b      	ldr	r3, [r3, #4]
+ 80005e0:	4a35      	ldr	r2, [pc, #212]	; (80006b8 <SystemCFG+0xec>)
+ 80005e2:	f043 0302 	orr.w	r3, r3, #2
+ 80005e6:	6053      	str	r3, [r2, #4]
 	RCC->CFGR |= RCC_CFGR_HPRE_DIV2;		// AHB DIV = /2
- 80004c8:	4b33      	ldr	r3, [pc, #204]	; (8000598 <SystemCFG+0xec>)
- 80004ca:	685b      	ldr	r3, [r3, #4]
- 80004cc:	4a32      	ldr	r2, [pc, #200]	; (8000598 <SystemCFG+0xec>)
- 80004ce:	f043 0380 	orr.w	r3, r3, #128	; 0x80
- 80004d2:	6053      	str	r3, [r2, #4]
+ 80005e8:	4b33      	ldr	r3, [pc, #204]	; (80006b8 <SystemCFG+0xec>)
+ 80005ea:	685b      	ldr	r3, [r3, #4]
+ 80005ec:	4a32      	ldr	r2, [pc, #200]	; (80006b8 <SystemCFG+0xec>)
+ 80005ee:	f043 0380 	orr.w	r3, r3, #128	; 0x80
+ 80005f2:	6053      	str	r3, [r2, #4]
 	RCC->CFGR |= (RCC_CFGR_PPRE1_DIV1 << RCC_CFGR_PPRE1_Pos);	// PLL PPRE1 = /1
- 80004d4:	4b30      	ldr	r3, [pc, #192]	; (8000598 <SystemCFG+0xec>)
- 80004d6:	4a30      	ldr	r2, [pc, #192]	; (8000598 <SystemCFG+0xec>)
- 80004d8:	685b      	ldr	r3, [r3, #4]
- 80004da:	6053      	str	r3, [r2, #4]
+ 80005f4:	4b30      	ldr	r3, [pc, #192]	; (80006b8 <SystemCFG+0xec>)
+ 80005f6:	4a30      	ldr	r2, [pc, #192]	; (80006b8 <SystemCFG+0xec>)
+ 80005f8:	685b      	ldr	r3, [r3, #4]
+ 80005fa:	6053      	str	r3, [r2, #4]
 	RCC->CFGR |= (RCC_CFGR_SW_PLL << RCC_CFGR_SW_Pos);
- 80004dc:	4b2e      	ldr	r3, [pc, #184]	; (8000598 <SystemCFG+0xec>)
- 80004de:	685b      	ldr	r3, [r3, #4]
- 80004e0:	4a2d      	ldr	r2, [pc, #180]	; (8000598 <SystemCFG+0xec>)
- 80004e2:	f043 0302 	orr.w	r3, r3, #2
- 80004e6:	6053      	str	r3, [r2, #4]
+ 80005fc:	4b2e      	ldr	r3, [pc, #184]	; (80006b8 <SystemCFG+0xec>)
+ 80005fe:	685b      	ldr	r3, [r3, #4]
+ 8000600:	4a2d      	ldr	r2, [pc, #180]	; (80006b8 <SystemCFG+0xec>)
+ 8000602:	f043 0302 	orr.w	r3, r3, #2
+ 8000606:	6053      	str	r3, [r2, #4]
 	RCC->CFGR |= (RCC_CFGR_PLLSRC_HSE_PREDIV);
- 80004e8:	4b2b      	ldr	r3, [pc, #172]	; (8000598 <SystemCFG+0xec>)
- 80004ea:	685b      	ldr	r3, [r3, #4]
- 80004ec:	4a2a      	ldr	r2, [pc, #168]	; (8000598 <SystemCFG+0xec>)
- 80004ee:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
- 80004f2:	6053      	str	r3, [r2, #4]
+ 8000608:	4b2b      	ldr	r3, [pc, #172]	; (80006b8 <SystemCFG+0xec>)
+ 800060a:	685b      	ldr	r3, [r3, #4]
+ 800060c:	4a2a      	ldr	r2, [pc, #168]	; (80006b8 <SystemCFG+0xec>)
+ 800060e:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
+ 8000612:	6053      	str	r3, [r2, #4]
 	RCC->CR |= RCC_CR_HSEON;	// HSE ON
- 80004f4:	4b28      	ldr	r3, [pc, #160]	; (8000598 <SystemCFG+0xec>)
- 80004f6:	681b      	ldr	r3, [r3, #0]
- 80004f8:	4a27      	ldr	r2, [pc, #156]	; (8000598 <SystemCFG+0xec>)
- 80004fa:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
- 80004fe:	6013      	str	r3, [r2, #0]
+ 8000614:	4b28      	ldr	r3, [pc, #160]	; (80006b8 <SystemCFG+0xec>)
+ 8000616:	681b      	ldr	r3, [r3, #0]
+ 8000618:	4a27      	ldr	r2, [pc, #156]	; (80006b8 <SystemCFG+0xec>)
+ 800061a:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
+ 800061e:	6013      	str	r3, [r2, #0]
 	while (!(RCC->CR & RCC_CR_HSERDY)); // Wait for HSE ON
- 8000500:	bf00      	nop
- 8000502:	4b25      	ldr	r3, [pc, #148]	; (8000598 <SystemCFG+0xec>)
- 8000504:	681b      	ldr	r3, [r3, #0]
- 8000506:	f403 3300 	and.w	r3, r3, #131072	; 0x20000
- 800050a:	2b00      	cmp	r3, #0
- 800050c:	d0f9      	beq.n	8000502 <SystemCFG+0x56>
+ 8000620:	bf00      	nop
+ 8000622:	4b25      	ldr	r3, [pc, #148]	; (80006b8 <SystemCFG+0xec>)
+ 8000624:	681b      	ldr	r3, [r3, #0]
+ 8000626:	f403 3300 	and.w	r3, r3, #131072	; 0x20000
+ 800062a:	2b00      	cmp	r3, #0
+ 800062c:	d0f9      	beq.n	8000622 <SystemCFG+0x56>
 	RCC->CR |= RCC_CR_PLLON;	// PLL ON
- 800050e:	4b22      	ldr	r3, [pc, #136]	; (8000598 <SystemCFG+0xec>)
- 8000510:	681b      	ldr	r3, [r3, #0]
- 8000512:	4a21      	ldr	r2, [pc, #132]	; (8000598 <SystemCFG+0xec>)
- 8000514:	f043 7380 	orr.w	r3, r3, #16777216	; 0x1000000
- 8000518:	6013      	str	r3, [r2, #0]
+ 800062e:	4b22      	ldr	r3, [pc, #136]	; (80006b8 <SystemCFG+0xec>)
+ 8000630:	681b      	ldr	r3, [r3, #0]
+ 8000632:	4a21      	ldr	r2, [pc, #132]	; (80006b8 <SystemCFG+0xec>)
+ 8000634:	f043 7380 	orr.w	r3, r3, #16777216	; 0x1000000
+ 8000638:	6013      	str	r3, [r2, #0]
 	while ((RCC->CR & RCC_CR_PLLRDY)); // Check if PLL not locked
- 800051a:	bf00      	nop
- 800051c:	4b1e      	ldr	r3, [pc, #120]	; (8000598 <SystemCFG+0xec>)
- 800051e:	681b      	ldr	r3, [r3, #0]
- 8000520:	f003 7300 	and.w	r3, r3, #33554432	; 0x2000000
- 8000524:	2b00      	cmp	r3, #0
- 8000526:	d1f9      	bne.n	800051c <SystemCFG+0x70>
+ 800063a:	bf00      	nop
+ 800063c:	4b1e      	ldr	r3, [pc, #120]	; (80006b8 <SystemCFG+0xec>)
+ 800063e:	681b      	ldr	r3, [r3, #0]
+ 8000640:	f003 7300 	and.w	r3, r3, #33554432	; 0x2000000
+ 8000644:	2b00      	cmp	r3, #0
+ 8000646:	d1f9      	bne.n	800063c <SystemCFG+0x70>
 	FLASH->ACR = FLASH_ACR_PRFTBE | FLASH_ACR_LATENCY_1;
- 8000528:	4b1c      	ldr	r3, [pc, #112]	; (800059c <SystemCFG+0xf0>)
- 800052a:	2212      	movs	r2, #18
- 800052c:	601a      	str	r2, [r3, #0]
+ 8000648:	4b1c      	ldr	r3, [pc, #112]	; (80006bc <SystemCFG+0xf0>)
+ 800064a:	2212      	movs	r2, #18
+ 800064c:	601a      	str	r2, [r3, #0]
 	while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL);	// Check for a correct source set
- 800052e:	bf00      	nop
- 8000530:	4b19      	ldr	r3, [pc, #100]	; (8000598 <SystemCFG+0xec>)
- 8000532:	685b      	ldr	r3, [r3, #4]
- 8000534:	f003 030c 	and.w	r3, r3, #12
- 8000538:	2b08      	cmp	r3, #8
- 800053a:	d1f9      	bne.n	8000530 <SystemCFG+0x84>
+ 800064e:	bf00      	nop
+ 8000650:	4b19      	ldr	r3, [pc, #100]	; (80006b8 <SystemCFG+0xec>)
+ 8000652:	685b      	ldr	r3, [r3, #4]
+ 8000654:	f003 030c 	and.w	r3, r3, #12
+ 8000658:	2b08      	cmp	r3, #8
+ 800065a:	d1f9      	bne.n	8000650 <SystemCFG+0x84>
 	RCC->CR &= ~RCC_CR_HSION;	// 8MHz HSI OFF
- 800053c:	4b16      	ldr	r3, [pc, #88]	; (8000598 <SystemCFG+0xec>)
- 800053e:	681b      	ldr	r3, [r3, #0]
- 8000540:	4a15      	ldr	r2, [pc, #84]	; (8000598 <SystemCFG+0xec>)
- 8000542:	f023 0301 	bic.w	r3, r3, #1
- 8000546:	6013      	str	r3, [r2, #0]
+ 800065c:	4b16      	ldr	r3, [pc, #88]	; (80006b8 <SystemCFG+0xec>)
+ 800065e:	681b      	ldr	r3, [r3, #0]
+ 8000660:	4a15      	ldr	r2, [pc, #84]	; (80006b8 <SystemCFG+0xec>)
+ 8000662:	f023 0301 	bic.w	r3, r3, #1
+ 8000666:	6013      	str	r3, [r2, #0]
 
 
 	// RCC clock EN configuration
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN;	// GPIO Clk Enable
- 8000548:	4b13      	ldr	r3, [pc, #76]	; (8000598 <SystemCFG+0xec>)
- 800054a:	695b      	ldr	r3, [r3, #20]
- 800054c:	4a12      	ldr	r2, [pc, #72]	; (8000598 <SystemCFG+0xec>)
- 800054e:	f443 2360 	orr.w	r3, r3, #917504	; 0xe0000
- 8000552:	6153      	str	r3, [r2, #20]
+ 8000668:	4b13      	ldr	r3, [pc, #76]	; (80006b8 <SystemCFG+0xec>)
+ 800066a:	695b      	ldr	r3, [r3, #20]
+ 800066c:	4a12      	ldr	r2, [pc, #72]	; (80006b8 <SystemCFG+0xec>)
+ 800066e:	f443 2360 	orr.w	r3, r3, #917504	; 0xe0000
+ 8000672:	6153      	str	r3, [r2, #20]
 	RCC->APB1ENR |= RCC_APB1ENR_CANEN;												// CAN Clk Enable
- 8000554:	4b10      	ldr	r3, [pc, #64]	; (8000598 <SystemCFG+0xec>)
- 8000556:	69db      	ldr	r3, [r3, #28]
- 8000558:	4a0f      	ldr	r2, [pc, #60]	; (8000598 <SystemCFG+0xec>)
- 800055a:	f043 7300 	orr.w	r3, r3, #33554432	; 0x2000000
- 800055e:	61d3      	str	r3, [r2, #28]
+ 8000674:	4b10      	ldr	r3, [pc, #64]	; (80006b8 <SystemCFG+0xec>)
+ 8000676:	69db      	ldr	r3, [r3, #28]
+ 8000678:	4a0f      	ldr	r2, [pc, #60]	; (80006b8 <SystemCFG+0xec>)
+ 800067a:	f043 7300 	orr.w	r3, r3, #33554432	; 0x2000000
+ 800067e:	61d3      	str	r3, [r2, #28]
 
 	// Status LEDs GPIO config
 	GPIOC->MODER |= GPIO_MODER_MODER6_0 | GPIO_MODER_MODER7_0 | GPIO_MODER_MODER8_0 | GPIO_MODER_MODER9_0;	// GPIO Output mode
- 8000560:	4b0f      	ldr	r3, [pc, #60]	; (80005a0 <SystemCFG+0xf4>)
- 8000562:	681b      	ldr	r3, [r3, #0]
- 8000564:	4a0e      	ldr	r2, [pc, #56]	; (80005a0 <SystemCFG+0xf4>)
- 8000566:	f443 23aa 	orr.w	r3, r3, #348160	; 0x55000
- 800056a:	6013      	str	r3, [r2, #0]
+ 8000680:	4b0f      	ldr	r3, [pc, #60]	; (80006c0 <SystemCFG+0xf4>)
+ 8000682:	681b      	ldr	r3, [r3, #0]
+ 8000684:	4a0e      	ldr	r2, [pc, #56]	; (80006c0 <SystemCFG+0xf4>)
+ 8000686:	f443 23aa 	orr.w	r3, r3, #348160	; 0x55000
+ 800068a:	6013      	str	r3, [r2, #0]
 	// CAN bus GPIO config
 	GPIOA->MODER |= GPIO_MODER_MODER11_1 | GPIO_MODER_MODER12_1;	// GPIO Alternative Mode (CANbx)
- 800056c:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
- 8000570:	681b      	ldr	r3, [r3, #0]
- 8000572:	f04f 4290 	mov.w	r2, #1207959552	; 0x48000000
- 8000576:	f043 7320 	orr.w	r3, r3, #41943040	; 0x2800000
- 800057a:	6013      	str	r3, [r2, #0]
+ 800068c:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
+ 8000690:	681b      	ldr	r3, [r3, #0]
+ 8000692:	f04f 4290 	mov.w	r2, #1207959552	; 0x48000000
+ 8000696:	f043 7320 	orr.w	r3, r3, #41943040	; 0x2800000
+ 800069a:	6013      	str	r3, [r2, #0]
 	GPIOA->AFR[1] |= (0b1001 << 12) | (0b1001 << 16);	// PA11 and PA12 AF set to CAN_Tx and CAN_Rx
- 800057c:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
- 8000580:	6a5b      	ldr	r3, [r3, #36]	; 0x24
- 8000582:	f04f 4290 	mov.w	r2, #1207959552	; 0x48000000
- 8000586:	f443 2319 	orr.w	r3, r3, #626688	; 0x99000
- 800058a:	6253      	str	r3, [r2, #36]	; 0x24
+ 800069c:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
+ 80006a0:	6a5b      	ldr	r3, [r3, #36]	; 0x24
+ 80006a2:	f04f 4290 	mov.w	r2, #1207959552	; 0x48000000
+ 80006a6:	f443 2319 	orr.w	r3, r3, #626688	; 0x99000
+ 80006aa:	6253      	str	r3, [r2, #36]	; 0x24
 
 }
- 800058c:	bf00      	nop
- 800058e:	46bd      	mov	sp, r7
- 8000590:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000594:	4770      	bx	lr
- 8000596:	bf00      	nop
- 8000598:	40021000 	.word	0x40021000
- 800059c:	40022000 	.word	0x40022000
- 80005a0:	48000800 	.word	0x48000800
+ 80006ac:	bf00      	nop
+ 80006ae:	46bd      	mov	sp, r7
+ 80006b0:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80006b4:	4770      	bx	lr
+ 80006b6:	bf00      	nop
+ 80006b8:	40021000 	.word	0x40021000
+ 80006bc:	40022000 	.word	0x40022000
+ 80006c0:	48000800 	.word	0x48000800
 
-080005a4 <main>:
+080006c4 <main>:
 
 
 
 
 int main(void)
 {
- 80005a4:	b580      	push	{r7, lr}
- 80005a6:	b08c      	sub	sp, #48	; 0x30
- 80005a8:	af00      	add	r7, sp, #0
+ 80006c4:	b580      	push	{r7, lr}
+ 80006c6:	b08c      	sub	sp, #48	; 0x30
+ 80006c8:	af00      	add	r7, sp, #0
 
 	CAN_MESSAGE brkon;
-		strcpy(brkon.data, "br_00000");
- 80005aa:	f107 0318 	add.w	r3, r7, #24
- 80005ae:	3304      	adds	r3, #4
- 80005b0:	4a22      	ldr	r2, [pc, #136]	; (800063c <main+0x98>)
- 80005b2:	ca07      	ldmia	r2, {r0, r1, r2}
- 80005b4:	c303      	stmia	r3!, {r0, r1}
- 80005b6:	701a      	strb	r2, [r3, #0]
+		strcpy(brkon.data, "br_0000");
+ 80006ca:	4a25      	ldr	r2, [pc, #148]	; (8000760 <main+0x9c>)
+ 80006cc:	f107 031c 	add.w	r3, r7, #28
+ 80006d0:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 80006d4:	e883 0003 	stmia.w	r3, {r0, r1}
 		brkon.format = STANDARD_FORMAT;
- 80005b8:	2300      	movs	r3, #0
- 80005ba:	62bb      	str	r3, [r7, #40]	; 0x28
+ 80006d8:	2300      	movs	r3, #0
+ 80006da:	62bb      	str	r3, [r7, #40]	; 0x28
 		brkon.id = 0x03;
- 80005bc:	2303      	movs	r3, #3
- 80005be:	61bb      	str	r3, [r7, #24]
+ 80006dc:	2303      	movs	r3, #3
+ 80006de:	61bb      	str	r3, [r7, #24]
 		brkon.len = sizeof(brkon.data);
- 80005c0:	2308      	movs	r3, #8
- 80005c2:	627b      	str	r3, [r7, #36]	; 0x24
+ 80006e0:	2308      	movs	r3, #8
+ 80006e2:	627b      	str	r3, [r7, #36]	; 0x24
 		brkon.type = DATA_FRAME;
- 80005c4:	2300      	movs	r3, #0
- 80005c6:	62fb      	str	r3, [r7, #44]	; 0x2c
+ 80006e4:	2300      	movs	r3, #0
+ 80006e6:	62fb      	str	r3, [r7, #44]	; 0x2c
 
 	CAN_MESSAGE brkoff;
-		strcpy(brkoff.data, "br_00001");
- 80005c8:	463b      	mov	r3, r7
- 80005ca:	3304      	adds	r3, #4
- 80005cc:	4a1c      	ldr	r2, [pc, #112]	; (8000640 <main+0x9c>)
- 80005ce:	ca07      	ldmia	r2, {r0, r1, r2}
- 80005d0:	c303      	stmia	r3!, {r0, r1}
- 80005d2:	701a      	strb	r2, [r3, #0]
+		strcpy(brkoff.data, "br_0001");
+ 80006e8:	4a1e      	ldr	r2, [pc, #120]	; (8000764 <main+0xa0>)
+ 80006ea:	1d3b      	adds	r3, r7, #4
+ 80006ec:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 80006f0:	e883 0003 	stmia.w	r3, {r0, r1}
 		brkoff.format = STANDARD_FORMAT;
- 80005d4:	2300      	movs	r3, #0
- 80005d6:	613b      	str	r3, [r7, #16]
+ 80006f4:	2300      	movs	r3, #0
+ 80006f6:	613b      	str	r3, [r7, #16]
 		brkoff.id = 0x04;
- 80005d8:	2304      	movs	r3, #4
- 80005da:	603b      	str	r3, [r7, #0]
+ 80006f8:	2304      	movs	r3, #4
+ 80006fa:	603b      	str	r3, [r7, #0]
 		brkoff.len = sizeof(brkoff.data);
- 80005dc:	2308      	movs	r3, #8
- 80005de:	60fb      	str	r3, [r7, #12]
+ 80006fc:	2308      	movs	r3, #8
+ 80006fe:	60fb      	str	r3, [r7, #12]
 		brkoff.type = DATA_FRAME;
- 80005e0:	2300      	movs	r3, #0
- 80005e2:	617b      	str	r3, [r7, #20]
+ 8000700:	2300      	movs	r3, #0
+ 8000702:	617b      	str	r3, [r7, #20]
 
 
 	SystemCFG();	// Configure essential registers
- 80005e4:	f7ff ff62 	bl	80004ac <SystemCFG>
+ 8000704:	f7ff ff62 	bl	80005cc <SystemCFG>
 	CanInit();
- 80005e8:	f7ff fe0c 	bl	8000204 <CanInit>
+ 8000708:	f7ff fd86 	bl	8000218 <CanInit>
 
 	Can_Set_Filter(0x01, STANDARD_FORMAT);
- 80005ec:	2100      	movs	r1, #0
- 80005ee:	2001      	movs	r0, #1
- 80005f0:	f7ff fe96 	bl	8000320 <Can_Set_Filter>
+ 800070c:	2100      	movs	r1, #0
+ 800070e:	2001      	movs	r0, #1
+ 8000710:	f7ff fe96 	bl	8000440 <Can_Set_Filter>
 	Can_Set_Filter(0x02, STANDARD_FORMAT);
- 80005f4:	2100      	movs	r1, #0
- 80005f6:	2002      	movs	r0, #2
- 80005f8:	f7ff fe92 	bl	8000320 <Can_Set_Filter>
-//	Can_Tx_Msg(&brkon);
+ 8000714:	2100      	movs	r1, #0
+ 8000716:	2002      	movs	r0, #2
+ 8000718:	f7ff fe92 	bl	8000440 <Can_Set_Filter>
+
+	Can_Tx_Msg(&brkon);
+ 800071c:	f107 0318 	add.w	r3, r7, #24
+ 8000720:	4618      	mov	r0, r3
+ 8000722:	f7ff fda9 	bl	8000278 <Can_Tx_Msg>
 
   while (1)
   {
 
-	  if (CAN->RF0R & CAN_RF0R_FMP0) {			      // message pending ?
- 80005fc:	4b11      	ldr	r3, [pc, #68]	; (8000644 <main+0xa0>)
- 80005fe:	68db      	ldr	r3, [r3, #12]
- 8000600:	f003 0303 	and.w	r3, r3, #3
- 8000604:	2b00      	cmp	r3, #0
- 8000606:	d002      	beq.n	800060e <main+0x6a>
-	  	Can_Rx_Msg(&can_rx_message);                  // read the message
- 8000608:	480f      	ldr	r0, [pc, #60]	; (8000648 <main+0xa4>)
- 800060a:	f7ff fe25 	bl	8000258 <Can_Rx_Msg>
-	  }
-	  if (can_rx_message.id == 0x01) {
- 800060e:	4b0e      	ldr	r3, [pc, #56]	; (8000648 <main+0xa4>)
- 8000610:	681b      	ldr	r3, [r3, #0]
- 8000612:	2b01      	cmp	r3, #1
- 8000614:	d106      	bne.n	8000624 <main+0x80>
-		  GPIOC->ODR |= GPIO_ODR_6;
- 8000616:	4b0d      	ldr	r3, [pc, #52]	; (800064c <main+0xa8>)
- 8000618:	695b      	ldr	r3, [r3, #20]
- 800061a:	4a0c      	ldr	r2, [pc, #48]	; (800064c <main+0xa8>)
- 800061c:	f043 0340 	orr.w	r3, r3, #64	; 0x40
- 8000620:	6153      	str	r3, [r2, #20]
- 8000622:	e7eb      	b.n	80005fc <main+0x58>
-	  } else if (can_rx_message.id == 0x02) {
- 8000624:	4b08      	ldr	r3, [pc, #32]	; (8000648 <main+0xa4>)
- 8000626:	681b      	ldr	r3, [r3, #0]
- 8000628:	2b02      	cmp	r3, #2
- 800062a:	d1e7      	bne.n	80005fc <main+0x58>
-		  GPIOC->ODR &= ~GPIO_ODR_6;
- 800062c:	4b07      	ldr	r3, [pc, #28]	; (800064c <main+0xa8>)
- 800062e:	695b      	ldr	r3, [r3, #20]
- 8000630:	4a06      	ldr	r2, [pc, #24]	; (800064c <main+0xa8>)
- 8000632:	f023 0340 	bic.w	r3, r3, #64	; 0x40
- 8000636:	6153      	str	r3, [r2, #20]
-	  if (CAN->RF0R & CAN_RF0R_FMP0) {			      // message pending ?
- 8000638:	e7e0      	b.n	80005fc <main+0x58>
- 800063a:	bf00      	nop
- 800063c:	08000728 	.word	0x08000728
- 8000640:	08000734 	.word	0x08000734
- 8000644:	40006400 	.word	0x40006400
- 8000648:	20000020 	.word	0x20000020
- 800064c:	48000800 	.word	0x48000800
 
-08000650 <SystemInit>:
+	  if (!strcmp(can_rx_message.data, "mb_0000")) {
+ 8000726:	4910      	ldr	r1, [pc, #64]	; (8000768 <main+0xa4>)
+ 8000728:	4810      	ldr	r0, [pc, #64]	; (800076c <main+0xa8>)
+ 800072a:	f7ff fd4d 	bl	80001c8 <strcmp>
+ 800072e:	4603      	mov	r3, r0
+ 8000730:	2b00      	cmp	r3, #0
+ 8000732:	d106      	bne.n	8000742 <main+0x7e>
+		  GPIOC->ODR |= GPIO_ODR_6;
+ 8000734:	4b0e      	ldr	r3, [pc, #56]	; (8000770 <main+0xac>)
+ 8000736:	695b      	ldr	r3, [r3, #20]
+ 8000738:	4a0d      	ldr	r2, [pc, #52]	; (8000770 <main+0xac>)
+ 800073a:	f043 0340 	orr.w	r3, r3, #64	; 0x40
+ 800073e:	6153      	str	r3, [r2, #20]
+ 8000740:	e7f1      	b.n	8000726 <main+0x62>
+//		  Can_Tx_Msg(&brkon);
+	  } else if (!strcmp(can_rx_message.data, "mb_0001")) {
+ 8000742:	490c      	ldr	r1, [pc, #48]	; (8000774 <main+0xb0>)
+ 8000744:	4809      	ldr	r0, [pc, #36]	; (800076c <main+0xa8>)
+ 8000746:	f7ff fd3f 	bl	80001c8 <strcmp>
+ 800074a:	4603      	mov	r3, r0
+ 800074c:	2b00      	cmp	r3, #0
+ 800074e:	d1ea      	bne.n	8000726 <main+0x62>
+		  GPIOC->ODR &= ~GPIO_ODR_6;
+ 8000750:	4b07      	ldr	r3, [pc, #28]	; (8000770 <main+0xac>)
+ 8000752:	695b      	ldr	r3, [r3, #20]
+ 8000754:	4a06      	ldr	r2, [pc, #24]	; (8000770 <main+0xac>)
+ 8000756:	f023 0340 	bic.w	r3, r3, #64	; 0x40
+ 800075a:	6153      	str	r3, [r2, #20]
+	  if (!strcmp(can_rx_message.data, "mb_0000")) {
+ 800075c:	e7e3      	b.n	8000726 <main+0x62>
+ 800075e:	bf00      	nop
+ 8000760:	08000850 	.word	0x08000850
+ 8000764:	08000858 	.word	0x08000858
+ 8000768:	08000860 	.word	0x08000860
+ 800076c:	20000024 	.word	0x20000024
+ 8000770:	48000800 	.word	0x48000800
+ 8000774:	08000868 	.word	0x08000868
+
+08000778 <SystemInit>:
   * @brief  Setup the microcontroller system
   * @param  None
   * @retval None
   */
 void SystemInit(void)
 {
- 8000650:	b480      	push	{r7}
- 8000652:	af00      	add	r7, sp, #0
+ 8000778:	b480      	push	{r7}
+ 800077a:	af00      	add	r7, sp, #0
 /* FPU settings --------------------------------------------------------------*/
 #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
   SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
- 8000654:	4b06      	ldr	r3, [pc, #24]	; (8000670 <SystemInit+0x20>)
- 8000656:	f8d3 3088 	ldr.w	r3, [r3, #136]	; 0x88
- 800065a:	4a05      	ldr	r2, [pc, #20]	; (8000670 <SystemInit+0x20>)
- 800065c:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
- 8000660:	f8c2 3088 	str.w	r3, [r2, #136]	; 0x88
+ 800077c:	4b06      	ldr	r3, [pc, #24]	; (8000798 <SystemInit+0x20>)
+ 800077e:	f8d3 3088 	ldr.w	r3, [r3, #136]	; 0x88
+ 8000782:	4a05      	ldr	r2, [pc, #20]	; (8000798 <SystemInit+0x20>)
+ 8000784:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
+ 8000788:	f8c2 3088 	str.w	r3, [r2, #136]	; 0x88
 
   /* Configure the Vector Table location -------------------------------------*/
 #if defined(USER_VECT_TAB_ADDRESS)
   SCB->VTOR = VECT_TAB_BASE_ADDRESS | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
 #endif /* USER_VECT_TAB_ADDRESS */
 }
- 8000664:	bf00      	nop
- 8000666:	46bd      	mov	sp, r7
- 8000668:	f85d 7b04 	ldr.w	r7, [sp], #4
- 800066c:	4770      	bx	lr
- 800066e:	bf00      	nop
- 8000670:	e000ed00 	.word	0xe000ed00
+ 800078c:	bf00      	nop
+ 800078e:	46bd      	mov	sp, r7
+ 8000790:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000794:	4770      	bx	lr
+ 8000796:	bf00      	nop
+ 8000798:	e000ed00 	.word	0xe000ed00
 
-08000674 <Reset_Handler>:
+0800079c <Reset_Handler>:
 
     .section	.text.Reset_Handler
 	.weak	Reset_Handler
 	.type	Reset_Handler, %function
 Reset_Handler:
   ldr   sp, =_estack    /* Atollic update: set stack pointer */
- 8000674:	f8df d034 	ldr.w	sp, [pc, #52]	; 80006ac <LoopForever+0x2>
+ 800079c:	f8df d034 	ldr.w	sp, [pc, #52]	; 80007d4 <LoopForever+0x2>
 
 /* Copy the data segment initializers from flash to SRAM */
   ldr r0, =_sdata
- 8000678:	480d      	ldr	r0, [pc, #52]	; (80006b0 <LoopForever+0x6>)
+ 80007a0:	480d      	ldr	r0, [pc, #52]	; (80007d8 <LoopForever+0x6>)
   ldr r1, =_edata
- 800067a:	490e      	ldr	r1, [pc, #56]	; (80006b4 <LoopForever+0xa>)
+ 80007a2:	490e      	ldr	r1, [pc, #56]	; (80007dc <LoopForever+0xa>)
   ldr r2, =_sidata
- 800067c:	4a0e      	ldr	r2, [pc, #56]	; (80006b8 <LoopForever+0xe>)
+ 80007a4:	4a0e      	ldr	r2, [pc, #56]	; (80007e0 <LoopForever+0xe>)
   movs r3, #0
- 800067e:	2300      	movs	r3, #0
+ 80007a6:	2300      	movs	r3, #0
   b LoopCopyDataInit
- 8000680:	e002      	b.n	8000688 <LoopCopyDataInit>
+ 80007a8:	e002      	b.n	80007b0 <LoopCopyDataInit>
 
-08000682 <CopyDataInit>:
+080007aa <CopyDataInit>:
 
 CopyDataInit:
   ldr r4, [r2, r3]
- 8000682:	58d4      	ldr	r4, [r2, r3]
+ 80007aa:	58d4      	ldr	r4, [r2, r3]
   str r4, [r0, r3]
- 8000684:	50c4      	str	r4, [r0, r3]
+ 80007ac:	50c4      	str	r4, [r0, r3]
   adds r3, r3, #4
- 8000686:	3304      	adds	r3, #4
+ 80007ae:	3304      	adds	r3, #4
 
-08000688 <LoopCopyDataInit>:
+080007b0 <LoopCopyDataInit>:
 
 LoopCopyDataInit:
   adds r4, r0, r3
- 8000688:	18c4      	adds	r4, r0, r3
+ 80007b0:	18c4      	adds	r4, r0, r3
   cmp r4, r1
- 800068a:	428c      	cmp	r4, r1
+ 80007b2:	428c      	cmp	r4, r1
   bcc CopyDataInit
- 800068c:	d3f9      	bcc.n	8000682 <CopyDataInit>
+ 80007b4:	d3f9      	bcc.n	80007aa <CopyDataInit>
   
 /* Zero fill the bss segment. */
   ldr r2, =_sbss
- 800068e:	4a0b      	ldr	r2, [pc, #44]	; (80006bc <LoopForever+0x12>)
+ 80007b6:	4a0b      	ldr	r2, [pc, #44]	; (80007e4 <LoopForever+0x12>)
   ldr r4, =_ebss
- 8000690:	4c0b      	ldr	r4, [pc, #44]	; (80006c0 <LoopForever+0x16>)
+ 80007b8:	4c0b      	ldr	r4, [pc, #44]	; (80007e8 <LoopForever+0x16>)
   movs r3, #0
- 8000692:	2300      	movs	r3, #0
+ 80007ba:	2300      	movs	r3, #0
   b LoopFillZerobss
- 8000694:	e001      	b.n	800069a <LoopFillZerobss>
+ 80007bc:	e001      	b.n	80007c2 <LoopFillZerobss>
 
-08000696 <FillZerobss>:
+080007be <FillZerobss>:
 
 FillZerobss:
   str  r3, [r2]
- 8000696:	6013      	str	r3, [r2, #0]
+ 80007be:	6013      	str	r3, [r2, #0]
   adds r2, r2, #4
- 8000698:	3204      	adds	r2, #4
+ 80007c0:	3204      	adds	r2, #4
 
-0800069a <LoopFillZerobss>:
+080007c2 <LoopFillZerobss>:
 
 LoopFillZerobss:
   cmp r2, r4
- 800069a:	42a2      	cmp	r2, r4
+ 80007c2:	42a2      	cmp	r2, r4
   bcc FillZerobss
- 800069c:	d3fb      	bcc.n	8000696 <FillZerobss>
+ 80007c4:	d3fb      	bcc.n	80007be <FillZerobss>
 
 /* Call the clock system intitialization function.*/
     bl  SystemInit
- 800069e:	f7ff ffd7 	bl	8000650 <SystemInit>
+ 80007c6:	f7ff ffd7 	bl	8000778 <SystemInit>
 /* Call static constructors */
     bl __libc_init_array
- 80006a2:	f000 f811 	bl	80006c8 <__libc_init_array>
+ 80007ca:	f000 f811 	bl	80007f0 <__libc_init_array>
 /* Call the application's entry point.*/
 	bl	main
- 80006a6:	f7ff ff7d 	bl	80005a4 <main>
+ 80007ce:	f7ff ff79 	bl	80006c4 <main>
 
-080006aa <LoopForever>:
+080007d2 <LoopForever>:
 
 LoopForever:
     b LoopForever
- 80006aa:	e7fe      	b.n	80006aa <LoopForever>
+ 80007d2:	e7fe      	b.n	80007d2 <LoopForever>
   ldr   sp, =_estack    /* Atollic update: set stack pointer */
- 80006ac:	20003000 	.word	0x20003000
+ 80007d4:	20003000 	.word	0x20003000
   ldr r0, =_sdata
- 80006b0:	20000000 	.word	0x20000000
+ 80007d8:	20000000 	.word	0x20000000
   ldr r1, =_edata
- 80006b4:	20000000 	.word	0x20000000
+ 80007dc:	20000000 	.word	0x20000000
   ldr r2, =_sidata
- 80006b8:	08000748 	.word	0x08000748
+ 80007e0:	08000878 	.word	0x08000878
   ldr r2, =_sbss
- 80006bc:	20000000 	.word	0x20000000
+ 80007e4:	20000000 	.word	0x20000000
   ldr r4, =_ebss
- 80006c0:	20000038 	.word	0x20000038
+ 80007e8:	20000038 	.word	0x20000038
 
-080006c4 <ADC1_2_IRQHandler>:
+080007ec <ADC1_2_IRQHandler>:
  * @retval : None
 */
     .section	.text.Default_Handler,"ax",%progbits
 Default_Handler:
 Infinite_Loop:
 	b	Infinite_Loop
- 80006c4:	e7fe      	b.n	80006c4 <ADC1_2_IRQHandler>
+ 80007ec:	e7fe      	b.n	80007ec <ADC1_2_IRQHandler>
 	...
 
-080006c8 <__libc_init_array>:
- 80006c8:	b570      	push	{r4, r5, r6, lr}
- 80006ca:	4e0d      	ldr	r6, [pc, #52]	; (8000700 <__libc_init_array+0x38>)
- 80006cc:	4c0d      	ldr	r4, [pc, #52]	; (8000704 <__libc_init_array+0x3c>)
- 80006ce:	1ba4      	subs	r4, r4, r6
- 80006d0:	10a4      	asrs	r4, r4, #2
- 80006d2:	2500      	movs	r5, #0
- 80006d4:	42a5      	cmp	r5, r4
- 80006d6:	d109      	bne.n	80006ec <__libc_init_array+0x24>
- 80006d8:	4e0b      	ldr	r6, [pc, #44]	; (8000708 <__libc_init_array+0x40>)
- 80006da:	4c0c      	ldr	r4, [pc, #48]	; (800070c <__libc_init_array+0x44>)
- 80006dc:	f000 f818 	bl	8000710 <_init>
- 80006e0:	1ba4      	subs	r4, r4, r6
- 80006e2:	10a4      	asrs	r4, r4, #2
- 80006e4:	2500      	movs	r5, #0
- 80006e6:	42a5      	cmp	r5, r4
- 80006e8:	d105      	bne.n	80006f6 <__libc_init_array+0x2e>
- 80006ea:	bd70      	pop	{r4, r5, r6, pc}
- 80006ec:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
- 80006f0:	4798      	blx	r3
- 80006f2:	3501      	adds	r5, #1
- 80006f4:	e7ee      	b.n	80006d4 <__libc_init_array+0xc>
- 80006f6:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
- 80006fa:	4798      	blx	r3
- 80006fc:	3501      	adds	r5, #1
- 80006fe:	e7f2      	b.n	80006e6 <__libc_init_array+0x1e>
- 8000700:	08000740 	.word	0x08000740
- 8000704:	08000740 	.word	0x08000740
- 8000708:	08000740 	.word	0x08000740
- 800070c:	08000744 	.word	0x08000744
+080007f0 <__libc_init_array>:
+ 80007f0:	b570      	push	{r4, r5, r6, lr}
+ 80007f2:	4e0d      	ldr	r6, [pc, #52]	; (8000828 <__libc_init_array+0x38>)
+ 80007f4:	4c0d      	ldr	r4, [pc, #52]	; (800082c <__libc_init_array+0x3c>)
+ 80007f6:	1ba4      	subs	r4, r4, r6
+ 80007f8:	10a4      	asrs	r4, r4, #2
+ 80007fa:	2500      	movs	r5, #0
+ 80007fc:	42a5      	cmp	r5, r4
+ 80007fe:	d109      	bne.n	8000814 <__libc_init_array+0x24>
+ 8000800:	4e0b      	ldr	r6, [pc, #44]	; (8000830 <__libc_init_array+0x40>)
+ 8000802:	4c0c      	ldr	r4, [pc, #48]	; (8000834 <__libc_init_array+0x44>)
+ 8000804:	f000 f818 	bl	8000838 <_init>
+ 8000808:	1ba4      	subs	r4, r4, r6
+ 800080a:	10a4      	asrs	r4, r4, #2
+ 800080c:	2500      	movs	r5, #0
+ 800080e:	42a5      	cmp	r5, r4
+ 8000810:	d105      	bne.n	800081e <__libc_init_array+0x2e>
+ 8000812:	bd70      	pop	{r4, r5, r6, pc}
+ 8000814:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8000818:	4798      	blx	r3
+ 800081a:	3501      	adds	r5, #1
+ 800081c:	e7ee      	b.n	80007fc <__libc_init_array+0xc>
+ 800081e:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8000822:	4798      	blx	r3
+ 8000824:	3501      	adds	r5, #1
+ 8000826:	e7f2      	b.n	800080e <__libc_init_array+0x1e>
+ 8000828:	08000870 	.word	0x08000870
+ 800082c:	08000870 	.word	0x08000870
+ 8000830:	08000870 	.word	0x08000870
+ 8000834:	08000874 	.word	0x08000874
 
-08000710 <_init>:
- 8000710:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 8000712:	bf00      	nop
- 8000714:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 8000716:	bc08      	pop	{r3}
- 8000718:	469e      	mov	lr, r3
- 800071a:	4770      	bx	lr
+08000838 <_init>:
+ 8000838:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 800083a:	bf00      	nop
+ 800083c:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800083e:	bc08      	pop	{r3}
+ 8000840:	469e      	mov	lr, r3
+ 8000842:	4770      	bx	lr
 
-0800071c <_fini>:
- 800071c:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 800071e:	bf00      	nop
- 8000720:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 8000722:	bc08      	pop	{r3}
- 8000724:	469e      	mov	lr, r3
- 8000726:	4770      	bx	lr
+08000844 <_fini>:
+ 8000844:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000846:	bf00      	nop
+ 8000848:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800084a:	bc08      	pop	{r3}
+ 800084c:	469e      	mov	lr, r3
+ 800084e:	4770      	bx	lr

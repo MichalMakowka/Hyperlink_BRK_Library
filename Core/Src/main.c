@@ -26,16 +26,16 @@ int main(void)
 {
 
 	CAN_MESSAGE brkon;
-		strcpy(brkon.data, "br_b_50");
+		strcpy(brkon.data, "br_0000");
 		brkon.format = STANDARD_FORMAT;
-		brkon.id = 0x01;
+		brkon.id = 0x03;
 		brkon.len = sizeof(brkon.data);
 		brkon.type = DATA_FRAME;
 
 	CAN_MESSAGE brkoff;
-		strcpy(brkoff.data, "br_b_00");
+		strcpy(brkoff.data, "br_0001");
 		brkoff.format = STANDARD_FORMAT;
-		brkoff.id = 0x01;
+		brkoff.id = 0x04;
 		brkoff.len = sizeof(brkoff.data);
 		brkoff.type = DATA_FRAME;
 
@@ -43,93 +43,21 @@ int main(void)
 	SystemCFG();	// Configure essential registers
 	CanInit();
 
-
+	Can_Set_Filter(0x01, STANDARD_FORMAT);
 	Can_Set_Filter(0x02, STANDARD_FORMAT);
 
-
-
-	int idx = 0;;
+	Can_Tx_Msg(&brkon);
 
   while (1)
   {
 
 
-
-
-	  if (!strcmp(can_rx_message.data, "mb_b_50")) {
-		  memset(can_rx_message.data, 0, sizeof(can_rx_message.data));
-
-		  // LEDs
+	  if (!strcmp(can_rx_message.data, "mb_0000")) {
 		  GPIOC->ODR |= GPIO_ODR_6;
-		  GPIOC->ODR &= ~GPIO_ODR_9;
-		  idx=0;
-		  while(idx < 102) {
-
-
-			  // Motor
-
-
-			  GPIOA->ODR |=  GPIO_ODR_7;
-			  GPIOB->ODR &= ~GPIO_ODR_0;
-			  GPIOB->ODR &= ~GPIO_ODR_1;
-			  GPIOB->ODR &= ~GPIO_ODR_13;
-			  delay_ms(35);
-			  GPIOA->ODR &= ~GPIO_ODR_7;
-			  GPIOB->ODR &= ~GPIO_ODR_0;
-			  GPIOB->ODR &= ~GPIO_ODR_1;
-			  GPIOB->ODR |=  GPIO_ODR_13;
-			  delay_ms(35);
-			  GPIOA->ODR &= ~GPIO_ODR_7;
-			  GPIOB->ODR |=  GPIO_ODR_0;
-			  GPIOB->ODR &= ~GPIO_ODR_1;
-			  GPIOB->ODR &= ~GPIO_ODR_13;
-			  delay_ms(35);
-			  GPIOA->ODR &= ~GPIO_ODR_7;
-			  GPIOB->ODR &= ~GPIO_ODR_0;
-			  GPIOB->ODR |=  GPIO_ODR_1;
-			  GPIOB->ODR &= ~GPIO_ODR_13;
-			  delay_ms(35);
-			  idx++;
-		  }
-		  GPIOB->ODR &= ~ GPIO_ODR_1;
-		  Can_Tx_Msg(&brkon);
-
-
-
-	  } else if (!strcmp(can_rx_message.data, "mb_b_00")) {
-		  memset(can_rx_message.data, 0, sizeof(can_rx_message.data));
-		  // LEDs
-		  GPIOC->ODR |= GPIO_ODR_9;
+//		  Can_Tx_Msg(&brkon);
+	  } else if (!strcmp(can_rx_message.data, "mb_0001")) {
 		  GPIOC->ODR &= ~GPIO_ODR_6;
-		  idx=0;
-		  while(idx < 102) {
-		  // Motor
-
-
-			  GPIOA->ODR |=  GPIO_ODR_7;
-			  GPIOB->ODR &= ~GPIO_ODR_0;
-			  GPIOB->ODR &= ~GPIO_ODR_1;
-			  GPIOB->ODR &= ~GPIO_ODR_13;
-			  delay_ms(7);
-			  GPIOA->ODR &= ~GPIO_ODR_7;
-			  GPIOB->ODR &= ~GPIO_ODR_0;
-			  GPIOB->ODR |=  GPIO_ODR_1;
-			  GPIOB->ODR &= ~GPIO_ODR_13;
-			  delay_ms(7);
-			  GPIOA->ODR &= ~GPIO_ODR_7;
-			  GPIOB->ODR |=  GPIO_ODR_0;
-			  GPIOB->ODR &= ~GPIO_ODR_1;
-			  GPIOB->ODR &= ~GPIO_ODR_13;
-			  delay_ms(7);
-			  GPIOA->ODR &= ~GPIO_ODR_7;
-			  GPIOB->ODR &= ~GPIO_ODR_0;
-			  GPIOB->ODR &= ~GPIO_ODR_1;
-			  GPIOB->ODR |=  GPIO_ODR_13;
-			  delay_ms(7);
-			  idx++;
-		  }
-		  GPIOB->ODR &= ~GPIO_ODR_13;
-		  Can_Tx_Msg(&brkoff);
+//		  Can_Tx_Msg(&brkoff);
 	  }
 
   }

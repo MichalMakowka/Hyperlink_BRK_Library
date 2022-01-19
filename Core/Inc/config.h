@@ -12,8 +12,8 @@
 #include <string.h>
 #include "stm32f303x8.h"
 
-
-
+volatile uint16_t delay;
+void delay_ms(uint16_t ms);
 
 
 

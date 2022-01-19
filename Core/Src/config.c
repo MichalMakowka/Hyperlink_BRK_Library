@@ -36,5 +36,30 @@ void SystemCFG (void) {
 	GPIOA->MODER |= GPIO_MODER_MODER11_1 | GPIO_MODER_MODER12_1;	// GPIO Alternative Mode (CANbx)
 	GPIOA->AFR[1] |= (0b1001 << 12) | (0b1001 << 16);	// PA11 and PA12 AF set to CAN_Tx and CAN_Rx
 
+	// Motor Pins set as output
+	GPIOA->MODER |= GPIO_MODER_MODER7_0;
+	GPIOB->MODER |= GPIO_MODER_MODER0_0 | GPIO_MODER_MODER1_0 | GPIO_MODER_MODER13_0 | GPIO_MODER_MODER14_0 | GPIO_MODER_MODER15_0;
+
+	SysTick_Config(32000000 / 1000);
+	// Reset the SysTick counter value.
+	SysTick->VAL = 0UL;
+	// Set SysTick source and IRQ.
+	SysTick->CTRL = (SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk);
 }
 
+void delay_ms(uint16_t ms) {
+	// Enable the SysTick timer
+	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
+
+	// Wait for a specified number of milliseconds
+	delay = 0;
+	while (delay < ms);
+
+	// Disable the SysTick timer
+	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
+}
+
+
+__attribute__((interrupt)) void SysTick_Handler(void){
+	delay++;
+}
